@@ -7,4 +7,4 @@ They are triggered on a schedule and post application deploy on Concourse.
 
 They are managed via Terraform in which is stored in [pay-infra](https://github.com/alphagov/pay-infra).
 
-The scripts which run the Canaries post application deploy can be found in [pay-ci](https://github.com/alphagov/pay-ci)
+The scripts which run the Canaries post application deploy can be found in [pay-ci](https://github.com/alphagov/pay-ci).

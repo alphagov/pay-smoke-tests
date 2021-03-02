@@ -1,0 +1,19 @@
+{
+  "name": "pay-canary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run-local/index.js",
+  "scripts": {
+    "local": "standard && node run-local/index.js",
+    "test": "standard && node run-local/index.js",
+    "lint": "standard --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^8.0.0"
+  },
+  "devDependencies": {
+    "standard": "^16.0.3"
+  }
+}

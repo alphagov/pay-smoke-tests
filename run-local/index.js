@@ -12,6 +12,8 @@ const makeCardPaymentWorldpayWith3ds = require('../make-card-payment-worldpay-wi
 const makeCardPaymentWorldpayWith3ds2 = require('../make-card-payment-worldpay-with-3ds2')
 const makeCardPaymentWorldpayWith3ds2ExemptionEngine = require('../make-card-payment-worldpay-with-3ds2-exemption-engine')
 
+const cancelCardPaymentSandboxWithout3ds = require('../cancel-card-payment-sandbox-without-3ds')
+
 async function runHarness () {
   console.log('Running: Make Card Payment')
 
@@ -26,6 +28,9 @@ async function runHarness () {
   await makeCardPaymentWorldpayWith3ds.handler()
   await makeCardPaymentWorldpayWith3ds2.handler()
   await makeCardPaymentWorldpayWith3ds2ExemptionEngine.handler()
+
+  console.log('Running: Make and Cancel Card Payment')
+  await cancelCardPaymentSandboxWithout3ds.handler()
 
   process.exit(0)
 }

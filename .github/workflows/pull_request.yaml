@@ -1,0 +1,22 @@
+name: Check Semantic Versioning
+
+# Trigger when a push happens on main - this is the same as "on merge to main"
+on:
+  pull_request:
+    branches: 
+      - main
+      - PP-7873_gha_package_smoke_tests
+
+jobs:
+  check_semver:
+    name: Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Check Package version
+        uses: technote-space/package-version-check-action@v1
+        with:
+          COMMIT_DISABLED: 1

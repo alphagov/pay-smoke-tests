@@ -1,7 +1,7 @@
-const { ENVIRONMENT, LOCAL_SMOKE_TEST } = process.env
+const { ENVIRONMENT } = process.env
 
-const synthetics = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsStub/index.js') : require('Synthetics')
-const log = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsLoggerStub/index.js') : require('SyntheticsLogger')
+const synthetics = require('Synthetics')
+const log = require('SyntheticsLogger')
 const smokeTestHelpers = require('../helpers/smokeTestHelpers')
 
 const worldpay3ds2Card = {

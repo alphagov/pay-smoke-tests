@@ -1,6 +1,6 @@
-const { ENVIRONMENT, LOCAL_SMOKE_TEST } = process.env
+const { ENVIRONMENT } = process.env
 
-const log = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsLoggerStub/index.js') : require('SyntheticsLogger')
+const log = require('SyntheticsLogger')
 const smokeTestHelpers = require('../helpers/smokeTestHelpers')
 
 const epdq3dsCard = {

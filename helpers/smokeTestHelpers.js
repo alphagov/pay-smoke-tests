@@ -3,6 +3,7 @@ const { LOCAL_SMOKE_TEST } = process.env
 const synthetics = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsStub/index.js') : require('Synthetics')
 const log = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsLoggerStub/index.js') : require('SyntheticsLogger')
 const https = require('https')
+const AWS = require('aws-sdk')
 
 const today = new Date()
 const thisMonthNextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
@@ -207,6 +208,41 @@ function headers (apiToken) {
   }
 }
 
+function getSecret (secretName) {
+  const region = 'eu-west-1'
+  const client = new AWS.SecretsManager({ region: region })
+  return new Promise((resolve, reject) => {
+    client.getSecretValue({ SecretId: secretName }, function (error, data) {
+      if (error) {
+        log.info(`Error: ${error.message}`)
+        if (error.code === 'DecryptionFailureException') {
+          log.error('Secrets Manager cannot decrypt the protected secret text using the provided KMS key.')
+          throw error
+        } else if (error.code === 'InternalServiceErrorException') {
+          log.error('An error occurred on the server side.')
+          throw error
+        } else if (error.code === 'InvalidParameterException') {
+          log.error('The parameter contains an invalid value.')
+          throw error
+        } else if (error.code === 'InvalidRequestException') {
+          log.error('The parameter value is not valid for the current state of the resource.')
+          throw error
+        } else if (error.code === 'ResourceNotFoundException') {
+          log.error(`Secrets Manager cannot find the specified secret ${secretName}.`)
+          throw error
+        }
+      } else {
+        if ('SecretString' in data) {
+          resolve(JSON.parse(data.SecretString))
+        } else {
+          const buff = Buffer.alloc(data.SecretBinary, 'base64')
+          resolve(buff.toString('ascii'))
+        }
+      }
+    })
+  })
+}
+
 module.exports = {
   expiryMonth,
   expiryYear,
@@ -217,5 +253,6 @@ module.exports = {
   enterCardDetailsContinue3dsAndConfirm,
   generatePaymentReference,
   getPayment,
+  getSecret,
   headers
 }

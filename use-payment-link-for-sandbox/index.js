@@ -1,7 +1,8 @@
-const { SMOKE_TEST_PRODUCT_PAYMENT_LINK_URL, LOCAL_SMOKE_TEST } = process.env
+const { ENVIRONMENT, LOCAL_SMOKE_TEST } = process.env
 
 const synthetics = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsStub/index.js') : require('Synthetics')
 const log = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsLoggerStub/index.js') : require('SyntheticsLogger')
+const smokeTestHelpers = require('../helpers/smokeTestHelpers')
 
 async function enterAmount (page, amount) {
   log.info(`Enter the amount £${amount}`)
@@ -32,7 +33,8 @@ async function navigateToPayStart (page, paymentLinkUrl) {
 }
 
 exports.handler = async () => {
-  const paymentLinkUrl = `${SMOKE_TEST_PRODUCT_PAYMENT_LINK_URL}`
+  const secret = await smokeTestHelpers.getSecret(`${ENVIRONMENT}/smoke_test`)
+  const paymentLinkUrl = secret.SMOKE_TEST_PRODUCT_PAYMENT_LINK_URL
   const page = await synthetics.getPage()
 
   await navigateToPayStart(page, paymentLinkUrl)

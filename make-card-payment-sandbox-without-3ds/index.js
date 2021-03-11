@@ -1,4 +1,4 @@
-const { CARD_SANDBOX_API_TOKEN, PUBLIC_API_URL, LOCAL_SMOKE_TEST } = process.env
+const { ENVIRONMENT, LOCAL_SMOKE_TEST } = process.env
 
 const log = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsLoggerStub/index.js') : require('SyntheticsLogger')
 const smokeTestHelpers = require('../helpers/smokeTestHelpers')
@@ -13,8 +13,9 @@ const sandboxCard = {
 
 exports.handler = async () => {
   const provider = 'sandbox'
-  const apiToken = `${CARD_SANDBOX_API_TOKEN}`
-  const publicApiUrl = `${PUBLIC_API_URL}`
+  const secret = await smokeTestHelpers.getSecret(`${ENVIRONMENT}/smoke_test`)
+  const apiToken = secret.CARD_SANDBOX_API_TOKEN
+  const publicApiUrl = secret.PUBLIC_API_URL
 
   log.info(`Going to create a payment to ${provider}`)
   const createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, 'non_3ds')

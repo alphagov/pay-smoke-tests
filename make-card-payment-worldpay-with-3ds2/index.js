@@ -1,4 +1,4 @@
-const { CARD_WORLDPAY_3DS_FLEX_API_TOKEN, PUBLIC_API_URL, LOCAL_SMOKE_TEST } = process.env
+const { ENVIRONMENT, LOCAL_SMOKE_TEST } = process.env
 
 const synthetics = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsStub/index.js') : require('Synthetics')
 const log = LOCAL_SMOKE_TEST === 'true' ? require('../stubs/syntheticsLoggerStub/index.js') : require('SyntheticsLogger')
@@ -49,8 +49,9 @@ const enterCardDetailsContinueWorldpay3dsAndConfirm = async function (nextUrl, c
 
 exports.handler = async () => {
   const provider = 'worldpay'
-  const apiToken = `${CARD_WORLDPAY_3DS_FLEX_API_TOKEN}`
-  const publicApiUrl = `${PUBLIC_API_URL}`
+  const secret = await smokeTestHelpers.getSecret(`${ENVIRONMENT}/smoke_test`)
+  const apiToken = secret.CARD_WORLDPAY_3DS_FLEX_API_TOKEN
+  const publicApiUrl = secret.PUBLIC_API_URL
 
   log.info(`Going to create a payment to ${provider}`)
   const createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, '3ds2')

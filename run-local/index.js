@@ -14,6 +14,8 @@ const makeCardPaymentWorldpayWith3ds2ExemptionEngine = require('../make-card-pay
 
 const cancelCardPaymentSandboxWithout3ds = require('../cancel-card-payment-sandbox-without-3ds')
 
+const usePaymentLinkForSandbox = require('../use-payment-link-for-sandbox')
+
 async function runHarness () {
   console.log('Running: Make Card Payment')
 
@@ -31,6 +33,9 @@ async function runHarness () {
 
   console.log('Running: Make and Cancel Card Payment')
   await cancelCardPaymentSandboxWithout3ds.handler()
+
+  console.log('Running: Use Payment Link to Sandbox Gateway Account')
+  await usePaymentLinkForSandbox.handler()
 
   process.exit(0)
 }

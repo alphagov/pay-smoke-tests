@@ -20,6 +20,29 @@ To run the smoke tests locally we have a test harness which calls the `handler` 
 ### Tests
 Each smoke test should have its own folder which should be placed in the root of the repository.
 
+### How to run smoke tests locally
+
+To run smoke tests against test, staging or production environment locally, please follow the steps.
+
+1. Run the following command to install packages, and any packages that it depends on.
+
+    ```
+    npm install
+    ```
+
+2. Run the following command to executes a command with AWS credentials in the environment.
+
+    ```
+    aws-vault exec deploy
+    ```
+
+2. Run the following command to run the smoke tests against test environment. You can set ENVIRONMENT to staging or
+production if you want to run the tests against either staging or production environment.
+
+    ```
+    export ENVIRONMENT=test; export LOCAL_SMOKE_TEST=true; node run-local/index.js
+    ```
+
 ## Licence
 [MIT License](LICENCE)
 

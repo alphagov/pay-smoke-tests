@@ -8,8 +8,8 @@ on:
       - PP-7873_gha_package_smoke_tests
 
 jobs:
-  build:
-    name: Build
+  prepare:
+    name: Prepare
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,6 +33,31 @@ jobs:
             ${{ runner.os }}-
       - name: Install Node Modules
         run: npm install
+      - name: Cache Working Directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-working-dir
+        with:
+          path: "*"
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
+  build:
+    needs: prepare
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve Working Directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-working-dir
+        with:
+          path: "*"
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Debug LS
+        run: |
+          pwd
+          ls -alh
       - name: Node Lint
         run: npm run lint
       - name: NPM Build
@@ -86,13 +111,8 @@ jobs:
             }
             finally {
               var currentReleaseNumberStr = currentReleaseName.replace(/\D/g, '')
-              console.log(`[DEBUG] Current Release Number String: ${currentReleaseNumberStr}`)
-
               var currentReleaseNumberParseInt = parseInt(currentReleaseNumberStr)
-              console.log(`[DEBUG] Current Release Number Parsed: ${currentReleaseNumberParseInt}`)
-
               var currentReleaseNumber = isNaN(currentReleaseNumberParseInt) ? 0 : currentReleaseNumberParseInt
-              console.log(`[DEBUG] Current Release Number: ${currentReleaseNumber}`)
 
               var nextRelease = "v" + (currentReleaseNumber + 1)
               console.log(`Next Release Version: ${nextRelease}`)
@@ -112,6 +132,7 @@ jobs:
         with:
           name: ${{ steps.create-zip.outputs.ZIPFILENAME }}
           path: ${{ steps.create-zip.outputs.ZIPFILENAME }}.zip
+          if-no-files-found: error
       - name: Create Release
         id: create-release
         uses: actions/github-script@v3.1.0

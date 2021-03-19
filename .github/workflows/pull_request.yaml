@@ -1,11 +1,8 @@
 name: Check Pull Request
 
-# Trigger on a pull request:
+# Trigger on an opened PR (or commit to one):
 on:
   pull_request:
-    branches: 
-      - main
-      - PP-7873_gha_package_smoke_tests
 
 jobs:
   prepare:
@@ -38,7 +35,7 @@ jobs:
         env:
           cache-name: cache-working-dir
         with:
-          path: ./
+          path: "*"
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
   test:
     needs: prepare
@@ -50,7 +47,7 @@ jobs:
         env:
           cache-name: cache-working-dir
         with:
-          path: ./
+          path: "*"
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-

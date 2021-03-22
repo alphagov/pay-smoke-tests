@@ -109,14 +109,14 @@ async function enterCardDetailsAndSubmit (page, cardDetails, emailAddress) {
     await page.click('.charge-new__content > #card-details-wrap > #card-details #submit-card-details')
   })
 
-  await page.waitForNavigation()
+  await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 60000 })
 }
 
 async function enterCardDetailsAndConfirm (nextUrl, cardDetails, emailAddress) {
   log.info(`Going to get page ${nextUrl}`)
   const page = await synthetics.getPage()
 
-  const navigationPromise = page.waitForNavigation()
+  const navigationPromise = page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 60000 })
 
   await synthetics.executeStep('Goto_0', async function () {
     await page.goto(nextUrl, { waitUntil: 'domcontentloaded', timeout: 60000 })
@@ -138,7 +138,7 @@ async function enterCardDetailsContinue3dsAndConfirm (nextUrl, cardDetails, emai
   log.info(`Going to get page ${nextUrl}`)
   const page = await synthetics.getPage()
 
-  const navigationPromise = page.waitForNavigation()
+  const navigationPromise = page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 60000 })
 
   await synthetics.executeStep('Goto_0', async function () {
     await page.goto(nextUrl, { waitUntil: 'domcontentloaded', timeout: 60000 })

@@ -67,7 +67,13 @@ To run the smoke tests locally we have a test harness which calls the `handler` 
 ### Tests
 Each smoke test should have its own folder which should be placed in the root of the repository.
 
-### How to run smoke tests locally
+## Releases
+
+When a PR is merged, a Github Action will build a package and create a release.
+
+The smoke test Canaries can then be updated by a developer using the [Concourse deploy-smoke-tests pipeline](https://cd.gds-reliability.engineering/teams/pay-deploy/pipelines/deploy-smoke-tests).
+
+## Running smoke tests locally
 You can't. We have temporarily disabled this because this functionality prevented Webpack from 
 working correctly. We will plan to find another way of achieving this in the future.
 

@@ -106,8 +106,6 @@ async function enterCardDetailsAndSubmit (page, cardDetails, emailAddress) {
     await page.waitForSelector('.charge-new__content > #card-details-wrap > #card-details #submit-card-details')
     await page.click('.charge-new__content > #card-details-wrap > #card-details #submit-card-details')
   })
-
-  await page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 60000 })
 }
 
 async function enterCardDetailsAndConfirm (nextUrl, cardDetails, emailAddress) {

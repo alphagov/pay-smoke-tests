@@ -1,20 +1,27 @@
 {
-  "name": "pay-canary",
+  "name": "pay-smoke-tests",
   "version": "1.0.0",
   "description": "",
   "main": "run-local/index.js",
   "scripts": {
+    "build": "webpack",
+    "lint": "standard --fix",
     "local": "standard && node run-local/index.js",
-    "test": "standard && node run-local/index.js",
-    "lint": "standard --fix"
+    "test": "standard && node run-local/index.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.862.0",
+    "aws-sdk": "^2.863.0",
     "puppeteer": "^8.0.0"
   },
   "devDependencies": {
-    "standard": "^16.0.3"
+    "path": "^0.12.7",
+    "standard": "^16.0.3",
+    "webpack": "^5.25.1",
+    "webpack-aws-externals": "^2.0.1",
+    "webpack-cli": "^4.5.0",
+    "webpack-node-externals": "^2.5.2",
+    "zip-webpack-plugin": "^4.0.1"
   }
 }

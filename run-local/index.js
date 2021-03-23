@@ -1,3 +1,4 @@
+// NB: Running local tests may not work due to Webpack limitations.
 process.env.LOCAL_SMOKE_TEST = 'true'
 
 // const makeCardPaymentEpdqWithout3ds = require('../make-card-payment-epdq-without-3ds')

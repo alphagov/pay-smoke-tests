@@ -96,19 +96,7 @@ jobs:
               })
               currentReleaseName = getReleaseResp.data.name
               console.log(`Current Release Name: ${currentReleaseName}`)
-            } catch(err) {
-              if (err.name == 'HttpError') {
-                console.warn("Found HttpError")
-                if (err.status == 404)  {
-                  console.warn("Error 404. No latest release found. Starting from 0.")
-                  currentReleaseName = "v0"
-                }
-              } else {
-                console.error(`Failed to get the latest release: ${err.message}`)
-                throw err
-              }
-            }
-            finally {
+
               var currentReleaseNumberStr = currentReleaseName.replace(/\D/g, '')
               var currentReleaseNumberParseInt = parseInt(currentReleaseNumberStr)
               var currentReleaseNumber = isNaN(currentReleaseNumberParseInt) ? 0 : currentReleaseNumberParseInt
@@ -116,6 +104,17 @@ jobs:
               var nextRelease = "v" + (currentReleaseNumber + 1)
               console.log(`Next Release Version: ${nextRelease}`)
               console.log(`::set-output name=NEXTVERSION::${nextRelease}`)
+            } catch(err) {
+              if (err.name == 'HttpError') {
+                console.warn("Found HttpError")
+                if (err.status == 404)  {
+                  console.error("Error 404: No previous GitHub Releases found.")
+                  throw err
+                }
+              } else {
+                console.error(`Failed to get the latest release: ${err.message}`)
+                throw err
+              }
             }
       - name: Create .zip Archive
         id: create-zip

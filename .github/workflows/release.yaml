@@ -38,7 +38,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
   build:
     needs: prepare
     name: Build
@@ -50,9 +50,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
       - name: Debug LS
         run: |
           pwd
@@ -67,7 +65,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('webpack.config.js', 'dist/**')}}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
   release:
     needs: build
     name: Release
@@ -79,9 +77,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('webpack.config.js', 'dist/**')}}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
       - name: Get Next Version Number
         id: next-version
         uses: actions/github-script@v3.1.0

@@ -26,8 +26,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: Install Node Modules
         run: npm install
       - name: Cache Working Directory
@@ -36,7 +34,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
   test:
     needs: prepare
     name: Test Build
@@ -48,9 +46,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('*')}}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
       - name: Node Lint
         run: npm run lint
       - name: NPM Build
@@ -61,7 +57,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('webpack.config.js', 'dist/**')}}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
   package:
     needs: test
     name: Package
@@ -73,9 +69,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('webpack.config.js', 'dist/**')}}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
       - name: Get Next Version Number
         id: next-version
         uses: actions/github-script@v3.1.0

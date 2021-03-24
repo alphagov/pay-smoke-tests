@@ -46,8 +46,13 @@ if (!argv.test || !tests[argv.test]) {
 
 async function runTest (testName) {
   console.log(`Running ${testName}`)
+  try{
   await tests[testName].handler()
-  process.exit(0)
+    process.exit(0)
+  } catch(err){
+    console.log(`Failed to run test: ${err.message}`)
+    process.exit(1)
+  }
 }
 
 runTest(argv.test)

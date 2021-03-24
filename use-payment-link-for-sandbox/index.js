@@ -17,10 +17,10 @@ async function clickProceedToPaymentButton (page) {
   log.info('Click on "Proceed to payment" button')
   await synthetics.executeStep('Click on "Proceed to payment" button', async function () {
     await page.waitForSelector('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .push-bottom > .govuk-button')
+    const navigationPromise = page.waitForNavigation()
     await page.click('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .push-bottom > .govuk-button')
+    await navigationPromise
   })
-
-  await page.waitForNavigation()
 }
 
 async function navigateToPayStart (page, paymentLinkUrl) {

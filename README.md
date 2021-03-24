@@ -62,7 +62,14 @@ use-payment-link-for-sandbox | production | pymntlnk_sandbox_prod |
 AWS uses two libraries `Synthetics` and `SyntheticsLogger`, which appear to only be available inside of the lambda runtime, because of this when running tests locally we need to stub out both of these libraries using Puppeteer. The stubs for these exist in the `stubs` directory in the root of the repository.
 
 ### Test Harness 
-To run the smoke tests locally we have a test harness which calls the `handler` function inside of each canary, as new tests are added they should also be added to the harness. The harness exists inside of the `run-local` folder in the root of the repository.
+To run the tests locally use the `run-local/index.js` script. Provide the name
+of the test you want to run with the `--test` flag. It will print out the valid
+test names if none is provided or an invalid name is given.
+
+Example:
+
+> aws-vault exec deploy -- node run-local/index.js --test make-card-payment-sandbox-without-3ds
+
 
 ### Tests
 Each smoke test should have its own folder which should be placed in the root of the repository.

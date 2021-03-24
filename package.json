@@ -7,7 +7,7 @@
     "build": "webpack",
     "lint": "standard --fix",
     "local": "standard && node run-local/index.js",
-    "test": "standard && node run-local/index.js"
+    "test": "echo \"There are no tests\" && exit 1"
   },
   "author": "",
   "license": "MIT",

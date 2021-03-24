@@ -38,7 +38,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
   build:
     needs: prepare
     name: Build
@@ -50,7 +50,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Debug LS
         run: |
           pwd
@@ -65,7 +65,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
   release:
     needs: build
     name: Release
@@ -77,7 +77,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Get Next Version Number
         id: next-version
         uses: actions/github-script@v3.1.0

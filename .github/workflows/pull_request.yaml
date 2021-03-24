@@ -34,7 +34,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
   test:
     needs: prepare
     name: Test Build
@@ -46,7 +46,7 @@ jobs:
           cache-name: cache-working-dir
         with:
           path: "*"
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Node Lint
         run: npm run lint
       - name: NPM Build
@@ -57,7 +57,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
   package:
     needs: test
     name: Package
@@ -69,7 +69,7 @@ jobs:
           cache-name: cache-build-dist
         with:
           path: dist
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ env.GITHUB_SHA }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Get Next Version Number
         id: next-version
         uses: actions/github-script@v3.1.0

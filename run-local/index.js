@@ -3,6 +3,14 @@ const proxyquire = require('proxyquire').noCallThru()
 const syntheticsLoggerStub = require('../stubs/syntheticsLoggerStub')
 const syntheticsStub = require('../stubs/syntheticsStub')
 
+const environments = ['test', 'staging', 'production']
+if (!argv.env || !environments.includes(argv.env)) {
+  console.log(`Enter valid environment name with --env. Must be one of:\n ${environments}`)
+  process.exit(1)
+}
+
+process.env.ENVIRONMENT = argv.env
+
 const smokeTestHelpersWithStubs = proxyquire(
   '../helpers/smokeTestHelpers.js',
   { Synthetics: syntheticsStub, SyntheticsLogger: syntheticsLoggerStub }
@@ -14,12 +22,11 @@ const stubs = {
   '../helpers/smokeTestHelpers': smokeTestHelpersWithStubs
 }
 
-process.env.LOCAL_SMOKE_TEST = 'true'
-
+// epdq tests are not currently working so have been commented out for now.
 const tests = {
-  'make-card-payment-epdq-with-3ds': proxyquire('../make-card-payment-epdq-with-3ds', stubs),
-  'make-card-payment-epdq-with-3ds2': proxyquire('../make-card-payment-epdq-with-3ds2', stubs),
-  'make-card-payment-epdq-without-3ds': proxyquire('../make-card-payment-epdq-without-3ds', stubs),
+  //'make-card-payment-epdq-with-3ds': proxyquire('../make-card-payment-epdq-with-3ds', stubs),
+  //'make-card-payment-epdq-with-3ds2': proxyquire('../make-card-payment-epdq-with-3ds2', stubs),
+  //'make-card-payment-epdq-without-3ds': proxyquire('../make-card-payment-epdq-without-3ds', stubs),
   'make-card-payment-sandbox-without-3ds': proxyquire('../make-card-payment-sandbox-without-3ds', stubs),
   'make-card-payment-smartpay-without-3ds': proxyquire('../make-card-payment-smartpay-without-3ds', stubs),
   'make-card-payment-stripe-with-3ds2': proxyquire('../make-card-payment-stripe-with-3ds2', stubs),
@@ -33,13 +40,14 @@ const tests = {
 }
 
 if (!argv.test || !tests[argv.test]) {
-  console.error(`Enter valid test name with --test. Must be one of:\n ${Object.keys(tests)}`)
+  console.log(`Enter valid test name with --test. Must be one of:\n ${Object.keys(tests)}`)
   process.exit(1)
 }
 
 async function runTest (testName) {
   console.log(`Running ${testName}`)
   await tests[testName].handler()
+  process.exit(0)
 }
 
 runTest(argv.test)

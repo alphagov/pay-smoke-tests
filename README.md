@@ -64,11 +64,11 @@ AWS uses two libraries `Synthetics` and `SyntheticsLogger`, which appear to only
 ### Test Harness 
 To run the tests locally use the `run-local/index.js` script. Provide the name
 of the test you want to run with the `--test` flag. It will print out the valid
-test names if none is provided or an invalid name is given.
+test names if none is provided or an invalid name is given. Provide the environment to run the tests for with the '--env' flag.
 
 Example:
 
-> aws-vault exec deploy -- node run-local/index.js --test make-card-payment-sandbox-without-3ds
+> aws-vault exec deploy -- node run-local/index.js --test make-card-payment-sandbox-without-3ds --env test
 
 
 ### Tests
@@ -80,32 +80,6 @@ When a PR is merged, a Github Action will build a package and create a release.
 
 The smoke test Canaries can then be updated by a developer using the [Concourse deploy-smoke-tests pipeline](https://cd.gds-reliability.engineering/teams/pay-deploy/pipelines/deploy-smoke-tests).
 
-## Running smoke tests locally
-You can't. We have temporarily disabled this because this functionality prevented Webpack from 
-working correctly. We will plan to find another way of achieving this in the future.
-
-If we do fix running locally, here's how you would do it:
-
-To run smoke tests against test, staging or production environment locally, please follow the steps.
-
-1. Run the following command to install packages, and any packages that it depends on.
-
-    ```
-    npm install
-    ```
-
-2. Run the following command to executes a command with AWS credentials in the environment.
-
-    ```
-    aws-vault exec deploy
-    ```
-
-3. Run the following command to run the smoke tests against test environment. You can set ENVIRONMENT to staging or
-production if you want to run the tests against either staging or production environment.
-
-    ```
-    export ENVIRONMENT=test; export LOCAL_SMOKE_TEST=true; node run-local/index.js
-    ```
 
 ## Licence
 [MIT License](LICENCE)

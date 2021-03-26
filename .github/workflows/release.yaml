@@ -51,10 +51,6 @@ jobs:
         with:
           path: "*"
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
-      - name: Debug LS
-        run: |
-          pwd
-          ls -alh
       - name: Node Lint
         run: npm run lint
       - name: NPM Build

@@ -24,9 +24,9 @@ const stubs = {
 
 // epdq tests are not currently working so have been commented out for now.
 const tests = {
-  //'make-card-payment-epdq-with-3ds': proxyquire('../make-card-payment-epdq-with-3ds', stubs),
-  //'make-card-payment-epdq-with-3ds2': proxyquire('../make-card-payment-epdq-with-3ds2', stubs),
-  //'make-card-payment-epdq-without-3ds': proxyquire('../make-card-payment-epdq-without-3ds', stubs),
+  // 'make-card-payment-epdq-with-3ds': proxyquire('../make-card-payment-epdq-with-3ds', stubs),
+  // 'make-card-payment-epdq-with-3ds2': proxyquire('../make-card-payment-epdq-with-3ds2', stubs),
+  // 'make-card-payment-epdq-without-3ds': proxyquire('../make-card-payment-epdq-without-3ds', stubs),
   'make-card-payment-sandbox-without-3ds': proxyquire('../make-card-payment-sandbox-without-3ds', stubs),
   'make-card-payment-smartpay-without-3ds': proxyquire('../make-card-payment-smartpay-without-3ds', stubs),
   'make-card-payment-stripe-with-3ds2': proxyquire('../make-card-payment-stripe-with-3ds2', stubs),
@@ -46,10 +46,10 @@ if (!argv.test || !tests[argv.test]) {
 
 async function runTest (testName) {
   console.log(`Running ${testName}`)
-  try{
-  await tests[testName].handler()
+  try {
+    await tests[testName].handler()
     process.exit(0)
-  } catch(err){
+  } catch (err) {
     console.log(`Failed to run test: ${err.message}`)
     process.exit(1)
   }

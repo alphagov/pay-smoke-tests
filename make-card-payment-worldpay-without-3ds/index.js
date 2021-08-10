@@ -19,7 +19,7 @@ exports.handler = async () => {
 
   log.info(`Going to create a payment to ${provider}`)
   const createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, 'non_3ds')
-  const createPaymentResponse = await smokeTestHelpers.createPayment(apiToken, publicApiUrl, createPaymentRequest)
+  const createPaymentResponse = await smokeTestHelpers.createPaymentWithBackoffRetry(apiToken, publicApiUrl, createPaymentRequest)
   log.info(createPaymentResponse)
 
   await smokeTestHelpers.enterCardDetailsAndConfirm(createPaymentResponse._links.next_url.href, worldpayCard, secret.EMAIL_ADDRESS)

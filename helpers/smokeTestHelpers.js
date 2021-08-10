@@ -8,6 +8,26 @@ const thisMonthNextYear = new Date(today.getFullYear() + 1, today.getMonth(), to
 const expiryMonth = (thisMonthNextYear.getMonth() + 1).toString()
 const expiryYear = thisMonthNextYear.getFullYear().toString().substr(-2).toString()
 
+async function waitForBackoff (ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
+const createPaymentWithBackoffRetry = async (apiToken, publicApiUrl, createPaymentRequest, depth = 0) => {
+  try {
+    return await createPayment(apiToken, publicApiUrl, createPaymentRequest)
+  } catch (e) {
+    // Fail after 3 attempts
+    if (depth > 2) {
+      throw e
+    }
+    // Double the wait time for each attempt (1s, 2s, 4s)
+    await waitForBackoff(2 ** depth * 1000)
+    return createPaymentWithBackoffRetry(apiToken, publicApiUrl, createPaymentRequest, depth + 1)
+  }
+}
+
 async function createPayment (apiToken, publicApiUrl, createPaymentRequest) {
   const options = {
     host: publicApiUrl,
@@ -243,6 +263,7 @@ module.exports = {
   expiryMonth,
   expiryYear,
   createPayment,
+  createPaymentWithBackoffRetry,
   createPaymentRequest,
   enterCardDetailsAndSubmit,
   enterCardDetailsAndConfirm,

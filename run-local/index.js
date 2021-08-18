@@ -36,7 +36,8 @@ const tests = {
   'make-card-payment-worldpay-with-3ds2-exemp': proxyquire('../make-card-payment-worldpay-with-3ds2-exemption-engine', stubs),
   'make-card-payment-worldpay-without-3ds': proxyquire('../make-card-payment-worldpay-without-3ds', stubs),
   'cancel-card-payment-sandbox-without-3ds': proxyquire('../cancel-card-payment-sandbox-without-3ds', stubs),
-  'use-payment-link-for-sandbox': proxyquire('../use-payment-link-for-sandbox', stubs)
+  'use-payment-link-for-sandbox': proxyquire('../use-payment-link-for-sandbox', stubs),
+  'notifications-sandbox': proxyquire('../notifications-sandbox', stubs)
 }
 
 if (!argv.test || !tests[argv.test]) {
@@ -50,7 +51,7 @@ async function runTest (testName) {
     await tests[testName].handler()
     process.exit(0)
   } catch (err) {
-    console.log(`Failed to run test: ${err.message}`)
+    console.log(`test failed: ${err.message}`)
     process.exit(1)
   }
 }

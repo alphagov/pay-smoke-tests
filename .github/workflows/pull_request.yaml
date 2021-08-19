@@ -35,9 +35,9 @@ jobs:
         with:
           path: "*"
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
-  test:
+  build:
     needs: prepare
-    name: Test Build
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Retrieve Working Directory
@@ -59,7 +59,7 @@ jobs:
           path: dist
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
   package:
-    needs: test
+    needs: build
     name: Package
     runs-on: ubuntu-latest
     steps:

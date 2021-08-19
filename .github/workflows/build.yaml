@@ -1,7 +1,7 @@
-name: Create New Release
+name: Build
 
-# Trigger when a push happens on main - this is the same as "on merge to main"
 on:
+  pull_request:
   push:
     branches:
       - main
@@ -28,8 +28,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: Install Node Modules
         run: npm install
       - name: Cache Working Directory
@@ -124,6 +122,7 @@ jobs:
           path: ${{ steps.create-zip.outputs.ZIPFILENAME }}.zip
           if-no-files-found: error
       - name: Create Release
+        if: ${{ steps.branch-name.outputs.BRANCH == 'main' }}
         id: create-release
         uses: actions/github-script@v3.1.0
         with:

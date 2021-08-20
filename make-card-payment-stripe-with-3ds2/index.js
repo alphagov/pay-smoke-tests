@@ -30,8 +30,18 @@ const enterCardDetailsContinueStripe3dsAndConfirm = async function (nextUrl, car
     await page.waitForSelector('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .iframe-3ds')
   })
 
-  // Need to find a way to do the following method
-  // wait.until(ExpectedConditions.javaScriptThrowsNoExceptions("window.frames[0].frames[0].postMessage({test_source: {authorize: true}}, '*')"));
+  await synthetics.executeStep('Click submit button on 3DS page', async function () {
+    await page.waitForSelector('iframe.iframe-3ds')
+
+    const firstElementHandle = await page.$('iframe.iframe-3ds')
+    const firstIframe = await firstElementHandle.contentFrame()
+    await firstIframe.waitForSelector('iframe.FullscreenFrame')
+
+    const secondElementHandle = await firstIframe.$('iframe.FullscreenFrame')
+    const secondIframe = await secondElementHandle.contentFrame()
+    await secondIframe.waitForSelector('button#test-source-authorize-3ds')
+    await secondIframe.click('button#test-source-authorize-3ds')
+  })
 
   await navigationPromise
 
@@ -52,7 +62,6 @@ exports.handler = async () => {
   log.info(`Going to create a payment to ${provider}`)
   const createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, '3ds2')
   const createPaymentResponse = await smokeTestHelpers.createPayment(apiToken, publicApiUrl, createPaymentRequest)
-  log.info(createPaymentResponse)
 
   await enterCardDetailsContinueStripe3dsAndConfirm(createPaymentResponse._links.next_url.href, stripe3dsCard, secret.EMAIL_ADDRESS)
   log.info('Finished entering card details and confirmed')

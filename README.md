@@ -69,9 +69,11 @@ To run the tests locally use the `run-local/index.js` script. Provide the name
 of the test you want to run with the `--test` flag. It will print out the valid
 test names if none is provided or an invalid name is given. Provide the environment to run the tests for with the '--env' flag.
 
+To run the tests in a headless mode use the `--headless` flag.
+
 Example:
 
-> aws-vault exec deploy -- node run-local/index.js --test make-card-payment-sandbox-without-3ds --env test
+> aws-vault exec deploy -- node run-local/index.js --test make-card-payment-sandbox-without-3ds --env test --headless
 
 
 ### Tests

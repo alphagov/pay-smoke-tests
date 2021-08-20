@@ -1,15 +1,7 @@
 const argv = require('yargs/yargs')(process.argv.slice(2)).argv
 const proxyquire = require('proxyquire').noCallThru()
 const syntheticsLoggerStub = require('../stubs/syntheticsLoggerStub')
-const syntheticsStub = require('../stubs/syntheticsStub')
-
-const environments = ['test', 'staging', 'production']
-if (!argv.env || !environments.includes(argv.env)) {
-  console.log(`Enter valid environment name with --env. Must be one of:\n ${environments}`)
-  process.exit(1)
-}
-
-process.env.ENVIRONMENT = argv.env
+const syntheticsStub = require('../stubs/syntheticsStub')(argv.headless)
 
 const smokeTestHelpersWithStubs = proxyquire(
   '../helpers/smokeTestHelpers.js',
@@ -21,9 +13,11 @@ const stubs = {
   Synthetics: syntheticsStub,
   '../helpers/smokeTestHelpers': smokeTestHelpersWithStubs
 }
+const ENVIRONMENTS = ['test', 'staging', 'production']
+process.env.ENVIRONMENT = argv.env
 
 // epdq tests are not currently working so have been commented out for now.
-const tests = {
+const TESTS = {
   // 'make-card-payment-epdq-with-3ds': proxyquire('../make-card-payment-epdq-with-3ds', stubs),
   // 'make-card-payment-epdq-with-3ds2': proxyquire('../make-card-payment-epdq-with-3ds2', stubs),
   // 'make-card-payment-epdq-without-3ds': proxyquire('../make-card-payment-epdq-without-3ds', stubs),
@@ -40,15 +34,20 @@ const tests = {
   'notifications-sandbox': proxyquire('../notifications-sandbox', stubs)
 }
 
-if (!argv.test || !tests[argv.test]) {
-  console.log(`Enter valid test name with --test. Must be one of:\n ${Object.keys(tests)}`)
+if (argv.h || !argv.env || !argv.test) {
+  console.log(`Options: 
+  --env must be one of: ${ENVIRONMENTS}
+  --test must be one of:
+   ${Object.keys(TESTS)}
+  [--headless] run browser in headless mode, default to false
+  `)
   process.exit(1)
 }
 
 async function runTest (testName) {
   console.log(`Running ${testName}`)
   try {
-    await tests[testName].handler()
+    await TESTS[testName].handler()
     process.exit(0)
   } catch (err) {
     console.log(`test failed: ${err.message}`)

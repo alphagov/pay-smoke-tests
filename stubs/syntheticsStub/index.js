@@ -3,7 +3,10 @@ const puppeteer = require('puppeteer')
 exports.getPage = async () => {
   let page
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
+    args: [
+      '--disable-features=IsolateOrigins,site-per-process'
+    ],
     defaultViewport: {
       width: 1024,
       height: 768

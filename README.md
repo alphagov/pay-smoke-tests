@@ -71,7 +71,7 @@ Example:
 Each smoke test should have its own folder which should be placed in the root of the repository.
 
 ## EPDQ
-The EPDQ smoke tests were not working prior to the migration from pay-end-to-end and were not being run by Deploy Jenkins. There is [JIRA ticket](https://payments-platform.atlassian.net/browse/PP-8356) to investigate and fix them but for now these tests are not deployed as AWS Canaries and are commented out from running locally.
+The EPDQ smoke tests were not working prior to the migration from [pay-endtoend](https://github.com/alphagov/pay-endtoend) and were not being run by Deploy Jenkins. There is [JIRA ticket](https://payments-platform.atlassian.net/browse/PP-8356) to investigate and fix them but for now these tests are not deployed as AWS Canaries and are [commented out from running locally](https://github.com/alphagov/pay-smoke-tests/blob/88fdca5b6d37dc983f72ef286127429fb24bc5ab/run-local/index.js#L21).
 
 ## Releases
 

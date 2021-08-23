@@ -16,9 +16,6 @@ in the resource tags, however here's a quick reference guide:
 
 Scenario | Environment | Canary name
 ------------ | ------------- | ------------- |
-make-card-payment-epdq-with-3ds | test | card_epdq_3ds_test |
-make-card-payment-epdq-with-3ds2 | test | card_epdq_3ds2_test |
-make-card-payment-epdq-without-3ds | test | card_epdq_test |
 make-card-payment-sandbox-without-3ds | test | card_sandbox_test |
 make-card-payment-smartpay-without-3ds | test | card_smartpay_test |
 make-card-payment-stripe-with-3ds2 | test | card_stripe_3ds_test |
@@ -30,9 +27,6 @@ make-card-payment-worldpay-without-3ds | test | card_wpay_test |
 notifications-sandbox | test | notifications_test |
 cancel-card-payment-sandbox-without-3ds | test | cancel_sandbox_test |
 use-payment-link-for-sandbox | test | pymntlnk_sandbox_test |
-make-card-payment-epdq-with-3ds | staging | card_epdq_3ds_stag |
-make-card-payment-epdq-with-3ds2 | staging | card_epdq_3ds2_stag |
-make-card-payment-epdq-without-3ds | staging | card_epdq_stag |
 make-card-payment-sandbox-without-3ds | staging | card_sandbox_stag |
 make-card-payment-smartpay-without-3ds | staging | card_smartpay_stag |
 make-card-payment-stripe-with-3ds2 | staging | card_stripe_3ds_stag |
@@ -44,9 +38,6 @@ make-card-payment-worldpay-without-3ds | staging | card_wpay_stag |
 notifications-sandbox | staging | notifications_stag |
 cancel-card-payment-sandbox-without-3ds | staging | cancel_sandbox_stag |
 use-payment-link-for-sandbox | staging | pymntlnk_sandbox_stag |
-make-card-payment-epdq-with-3ds | production | card_epdq_3ds_prod |
-make-card-payment-epdq-with-3ds2 | production | card_epdq_3ds2_prod |
-make-card-payment-epdq-without-3ds | production | card_epdq_prod |
 make-card-payment-sandbox-without-3ds | production | card_sandbox_prod |
 make-card-payment-smartpay-without-3ds | production | card_smartpay_prod |
 make-card-payment-stripe-with-3ds2 | production | card_stripe_3ds_prod |
@@ -78,6 +69,9 @@ Example:
 
 ### Tests
 Each smoke test should have its own folder which should be placed in the root of the repository.
+
+## EPDQ
+The EPDQ smoke tests were not working prior to the migration from [pay-endtoend](https://github.com/alphagov/pay-endtoend) and were not being run by Deploy Jenkins. There is [JIRA ticket](https://payments-platform.atlassian.net/browse/PP-8356) to investigate and fix them but for now these tests are not deployed as AWS Canaries and are [commented out from running locally](https://github.com/alphagov/pay-smoke-tests/blob/88fdca5b6d37dc983f72ef286127429fb24bc5ab/run-local/index.js#L21).
 
 ## Releases
 

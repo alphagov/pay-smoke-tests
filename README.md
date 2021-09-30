@@ -17,7 +17,6 @@ in the resource tags, however here's a quick reference guide:
 Scenario | Environment | Canary name
 ------------ | ------------- | ------------- |
 make-card-payment-sandbox-without-3ds | test | card_sandbox_test |
-make-card-payment-smartpay-without-3ds | test | card_smartpay_test |
 make-card-payment-stripe-with-3ds2 | test | card_stripe_3ds_test |
 make-card-payment-stripe-without-3ds | test | card_stripe_test |
 make-card-payment-worldpay-with-3ds | test | card_wpay_3ds_test |
@@ -28,7 +27,6 @@ notifications-sandbox | test | notifications_test |
 cancel-card-payment-sandbox-without-3ds | test | cancel_sandbox_test |
 use-payment-link-for-sandbox | test | pymntlnk_sandbox_test |
 make-card-payment-sandbox-without-3ds | staging | card_sandbox_stag |
-make-card-payment-smartpay-without-3ds | staging | card_smartpay_stag |
 make-card-payment-stripe-with-3ds2 | staging | card_stripe_3ds_stag |
 make-card-payment-stripe-without-3ds | staging | card_stripe_stag |
 make-card-payment-worldpay-with-3ds | staging | card_wpay_3ds_stag |
@@ -39,7 +37,6 @@ notifications-sandbox | staging | notifications_stag |
 cancel-card-payment-sandbox-without-3ds | staging | cancel_sandbox_stag |
 use-payment-link-for-sandbox | staging | pymntlnk_sandbox_stag |
 make-card-payment-sandbox-without-3ds | production | card_sandbox_prod |
-make-card-payment-smartpay-without-3ds | production | card_smartpay_prod |
 make-card-payment-stripe-with-3ds2 | production | card_stripe_3ds_prod |
 make-card-payment-stripe-without-3ds | production | card_stripe_prod |
 make-card-payment-worldpay-with-3ds | production | card_wpay_3ds_prod |

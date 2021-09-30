@@ -43,7 +43,6 @@ module.exports = [
   singleModule('make-card-payment-epdq-with-3ds2'),
   singleModule('make-card-payment-epdq-without-3ds'),
   singleModule('make-card-payment-sandbox-without-3ds'),
-  singleModule('make-card-payment-smartpay-without-3ds'),
   singleModule('make-card-payment-stripe-with-3ds2'),
   singleModule('make-card-payment-stripe-without-3ds'),
   singleModule('make-card-payment-worldpay-with-3ds'),

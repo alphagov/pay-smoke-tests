@@ -11,6 +11,11 @@ exports.handler = async () => {
   const path = '/v1/api/notifications/sandbox'
 
   log.info(`Sending POST request to ${notificationsHostName}${path}`)
+  
+  const data = JSON.stringify({
+    body: "sandbox-notifications"
+  })
+
   const options = {
     host: notificationsHostName,
     port: 443,
@@ -18,7 +23,11 @@ exports.handler = async () => {
       Authorization: apiToken
     },
     path,
-    method: 'POST'
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': data.length
+    }
   }
 
   return new Promise((resolve, reject) => {
@@ -29,6 +38,6 @@ exports.handler = async () => {
       } else {
         reject(new Error(`Notifications endpoint responded with ${res.statusCode} status`))
       }
-    }).end()
+    }).write(data).end()
   })
 }

@@ -11,23 +11,21 @@ exports.handler = async () => {
   const path = '/v1/api/notifications/sandbox'
 
   log.info(`Sending POST request to ${notificationsHostName}${path}`)
-  
+
   const data = JSON.stringify({
-    body: "sandbox-notifications"
+    body: 'sandbox-notifications'
   })
 
   const options = {
     host: notificationsHostName,
     port: 443,
     headers: {
-      Authorization: apiToken
-    },
-    path,
-    method: 'POST',
-    headers: {
+      Authorization: apiToken,
       'Content-Type': 'application/json',
       'Content-Length': data.length
-    }
+    },
+    path,
+    method: 'POST'
   }
 
   return new Promise((resolve, reject) => {

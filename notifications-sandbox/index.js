@@ -29,13 +29,16 @@ exports.handler = async () => {
   }
 
   return new Promise((resolve, reject) => {
-    https.request(options, res => {
+    const request = https.request(options, res => {
       if (res.statusCode === 200) {
         log.info('Notifications responded with 200 OK')
         resolve()
       } else {
         reject(new Error(`Notifications endpoint responded with ${res.statusCode} status`))
       }
-    }).write(data).end()
+    })
+
+    request.write(data)
+    request.end()
   })
 }

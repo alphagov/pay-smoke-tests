@@ -12,7 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.863.0",
+    "aws-sdk": "^2.1056.0",
     "puppeteer": "^8.0.0"
   },
   "devDependencies": {

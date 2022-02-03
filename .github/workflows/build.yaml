@@ -62,6 +62,8 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
   release:
     needs: build
+    permissions:
+      contents: write
     name: Release
     runs-on: ubuntu-latest
     steps:

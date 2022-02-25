@@ -76,13 +76,13 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Get Next Version Number
         id: next-version
-        uses: actions/github-script@f05a81df23035049204b043b50c3322045ce7eb3
+        uses: actions/github-script@441359b1a30438de65712c2fbca0abe4816fa667
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             var currentReleaseName = ""
             try {
-              const getReleaseResp = await github.repos.getLatestRelease({
+              const getReleaseResp = await github.rest.repos.getLatestRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo
               })
@@ -126,13 +126,13 @@ jobs:
       - name: Create Release
         if: ${{ github.ref == 'refs/heads/main' }}
         id: create-release
-        uses: actions/github-script@f05a81df23035049204b043b50c3322045ce7eb3
+        uses: actions/github-script@441359b1a30438de65712c2fbca0abe4816fa667
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             var fs = require('fs')
             try {
-              const releaseResponse = await github.repos.createRelease({
+              const releaseResponse = await github.rest.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag_name: "${{ steps.next-version.outputs.NEXTVERSION }}",
@@ -141,7 +141,7 @@ jobs:
 
               const fileName = "${{ steps.create-zip.outputs.ZIPFILENAME }}.zip"
 
-              const releaseUploadResponse = await github.repos.uploadReleaseAsset({
+              const releaseUploadResponse = await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 release_id: releaseResponse.data.id,

@@ -76,7 +76,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Get Next Version Number
         id: next-version
-        uses: actions/github-script@f05a81df23035049204b043b50c3322045ce7eb3
+        uses: actions/github-script@9ac08808f993958e9de277fe43a64532a609130e
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -126,7 +126,7 @@ jobs:
       - name: Create Release
         if: ${{ github.ref == 'refs/heads/main' }}
         id: create-release
-        uses: actions/github-script@f05a81df23035049204b043b50c3322045ce7eb3
+        uses: actions/github-script@9ac08808f993958e9de277fe43a64532a609130e
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

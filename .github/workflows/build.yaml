@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a
         with:
           node-version: '12'
       - name: Cache NPM Node Modules
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         env:
           cache-name: cache-node-modules
         with:
@@ -31,7 +31,7 @@ jobs:
       - name: Install Node Modules
         run: npm install
       - name: Cache Working Directory
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         env:
           cache-name: cache-working-dir
         with:
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Retrieve Working Directory
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         env:
           cache-name: cache-working-dir
         with:
@@ -54,7 +54,7 @@ jobs:
       - name: NPM Build
         run: npm run build
       - name: Cache Build Assets
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         env:
           cache-name: cache-build-dist
         with:
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Retrieve Build Assets
-        uses: actions/cache@v2
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
         env:
           cache-name: cache-build-dist
         with:
@@ -76,7 +76,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Get Next Version Number
         id: next-version
-        uses: actions/github-script@v3.1.0
+        uses: actions/github-script@f05a81df23035049204b043b50c3322045ce7eb3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -118,7 +118,7 @@ jobs:
 
           echo "::set-output name=ZIPFILENAME::${ZIPFILENAME}"
       - name: Upload Archive
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
         with:
           name: ${{ steps.create-zip.outputs.ZIPFILENAME }}
           path: ${{ steps.create-zip.outputs.ZIPFILENAME }}.zip
@@ -126,7 +126,7 @@ jobs:
       - name: Create Release
         if: ${{ github.ref == 'refs/heads/main' }}
         id: create-release
-        uses: actions/github-script@v3.1.0
+        uses: actions/github-script@f05a81df23035049204b043b50c3322045ce7eb3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

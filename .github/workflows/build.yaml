@@ -118,7 +118,7 @@ jobs:
 
           echo "::set-output name=ZIPFILENAME::${ZIPFILENAME}"
       - name: Upload Archive
-        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535
         with:
           name: ${{ steps.create-zip.outputs.ZIPFILENAME }}
           path: ${{ steps.create-zip.outputs.ZIPFILENAME }}.zip

@@ -1,0 +1,63 @@
+# Currently this only runs npm lint and attempts to build the package
+# The build is then cached and can be used for the post-merge release.
+name: Test and build
+
+on:
+  pull_request:
+  workflow_call:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a
+        with:
+          node-version: '12'
+      - name: Cache NPM Node Modules
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Install Node Modules
+        run: npm install
+      - name: Node Lint
+        run: npm run lint
+      - name: Cache Working Directory
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
+        env:
+          cache-name: cache-working-dir
+        with:
+          path: "*"
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
+
+  build:
+    needs: lint
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve Working Directory
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
+        env:
+          cache-name: cache-working-dir
+        with:
+          path: "*"
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
+      - name: NPM Build
+        run: npm run build
+      - name: Cache Build Assets
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed
+        env:
+          cache-name: cache-build-dist
+        with:
+          path: dist
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}

@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a
+        uses: actions/setup-node@5b52f097d36d4b0b2f94ed6de710023fbb8b2236
         with:
           node-version: '12'
       - name: Cache NPM Node Modules

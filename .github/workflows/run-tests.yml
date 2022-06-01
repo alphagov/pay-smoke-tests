@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '12'
       - name: Cache NPM Node Modules
-        uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09
+        uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd
         env:
           cache-name: cache-node-modules
         with:
@@ -33,7 +33,7 @@ jobs:
       - name: Node Lint
         run: npm run lint
       - name: Cache Working Directory
-        uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09
+        uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd
         env:
           cache-name: cache-working-dir
         with:
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Retrieve Working Directory
-        uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09
+        uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd
         env:
           cache-name: cache-working-dir
         with:
@@ -55,7 +55,7 @@ jobs:
       - name: NPM Build
         run: npm run build
       - name: Cache Build Assets
-        uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09
+        uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd
         env:
           cache-name: cache-build-dist
         with:

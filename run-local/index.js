@@ -15,6 +15,7 @@ const stubs = {
 }
 const ENVIRONMENTS = ['test', 'staging', 'production']
 process.env.ENVIRONMENT = argv.env
+process.env.WEBHOOKS_ENABLED = argv.webhooks
 
 // epdq tests are not currently working so have been commented out for now.
 const TESTS = {
@@ -33,11 +34,12 @@ const TESTS = {
   'notifications-sandbox': proxyquire('../notifications-sandbox', stubs)
 }
 
-if (argv.h || !argv.env || !argv.test) {
+if (argv.h || !argv.env || !argv.test || !argv.webhooks) {
   console.log(`Options: 
   --env must be one of: ${ENVIRONMENTS}
   --test must be one of:
    ${Object.keys(TESTS)}
+  --webhooks must be either true or false
   [--headless] run browser in headless mode, default to false
   `)
   process.exit(1)
@@ -49,7 +51,7 @@ async function runTest (testName) {
     await TESTS[testName].handler()
     process.exit(0)
   } catch (err) {
-    console.log(`test failed: ${err.message}`)
+    console.log(`Test failed: ${err.message}`)
     process.exit(1)
   }
 }

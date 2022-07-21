@@ -1,4 +1,4 @@
-const { ENVIRONMENT } = process.env
+const { ENVIRONMENT, WEBHOOKS_ENABLED } = process.env
 
 const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
@@ -73,4 +73,5 @@ exports.handler = async () => {
   if (paymentStatus !== 'success') {
     throw new Error(`Payment status ${paymentStatus} does not equal success`)
   }
+  if (WEBHOOKS_ENABLED === 'true') await smokeTestHelpers.validateWebhookReceived(ENVIRONMENT, payment.payment_id)
 }

@@ -239,6 +239,35 @@ function getSecret (secretName) {
   })
 }
 
+const getWebhookObjectFromS3 = (account, resourceId) => {
+  const s3 = new AWS.S3({
+    region: 'eu-west-1'
+  })
+  const dateString = [today.getFullYear(), (today.getUTCMonth() + 1), today.getDate()].join('/')
+  const path = ['webhooks', account, dateString, resourceId].join('/')
+
+  log.info('Looking for key:', path)
+
+  return s3.getObject({ Bucket: 'govuk-pay-smoke-tests-results-deploy', Key: path }).promise()
+}
+
+const wait = ms => new Promise(resolve => {
+  log.info(`Waiting ${ms}ms`)
+  setTimeout(resolve, ms)
+})
+
+const validateWebhookReceived = async (env, paymentId) => {
+  const accounts = {
+    test: 'test-12',
+    staging: 'staging-2',
+    production: 'production-2'
+  }
+  await wait(2000)
+  const key = await getWebhookObjectFromS3(accounts[env], paymentId)
+  const result = JSON.parse(key.Body.toString())
+  log.info('Found: ', result)
+}
+
 module.exports = {
   expiryMonth,
   expiryYear,
@@ -250,5 +279,6 @@ module.exports = {
   generatePaymentReference,
   getPayment,
   getSecret,
-  headers
+  headers,
+  validateWebhookReceived
 }

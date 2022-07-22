@@ -257,15 +257,17 @@ const wait = ms => new Promise(resolve => {
 })
 
 const validateWebhookReceived = async (env, paymentId) => {
-  const accounts = {
-    test: 'test-12',
-    staging: 'staging-2',
-    production: 'production-2'
-  }
-  await wait(2000)
-  const key = await getWebhookObjectFromS3(accounts[env], paymentId)
-  const result = JSON.parse(key.Body.toString())
-  log.info('Found: ', result)
+  await synthetics.executeStep('Validate webhook was received', async function () {
+    const accounts = {
+      test: 'test-12',
+      staging: 'staging-2',
+      production: 'production-2'
+    }
+    await wait(2000)
+    const key = await getWebhookObjectFromS3(accounts[env], paymentId)
+    const result = JSON.parse(key.Body.toString())
+    log.info('Found: ', result)
+  })
 }
 
 module.exports = {

@@ -5,22 +5,16 @@ const log = require('SyntheticsLogger')
 const smokeTestHelpers = require('../helpers/smokeTestHelpers')
 
 async function enterAmount (page, amount) {
-  log.info(`Enter the amount £${amount}`)
-  await synthetics.executeStep('Enter amount', async function () {
-    await page.waitForSelector('#payment-amount')
-    await page.click('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .push-bottom > .currency-input > .currency-input__inner > #payment-amount')
-    await page.type('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .push-bottom > .currency-input > .currency-input__inner > #payment-amount', amount)
-  })
+  await page.waitForSelector('#payment-amount')
+  await page.click('#payment-amount')
+  await page.type('#payment-amount', amount)
 }
 
-async function clickProceedToPaymentButton (page) {
-  log.info('Click on "Proceed to payment" button')
-  await synthetics.executeStep('Click on "Proceed to payment" button', async function () {
-    await page.waitForSelector('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .push-bottom > .govuk-button')
-    const navigationPromise = page.waitForNavigation()
-    await page.click('#main-content > .govuk-grid-row > .govuk-grid-column-two-thirds > .push-bottom > .govuk-button')
-    await navigationPromise
-  })
+async function clickContinueOnPage (page) {
+  await page.waitForSelector('.govuk-button')
+  const navigationPromise = page.waitForNavigation()
+  await page.click('.govuk-button')
+  await navigationPromise
 }
 
 async function navigateToPayStart (page, paymentLinkUrl) {
@@ -38,8 +32,22 @@ exports.handler = async () => {
   const page = await synthetics.getPage()
 
   await navigateToPayStart(page, paymentLinkUrl)
-  await enterAmount(page, '50.50')
-  await clickProceedToPaymentButton(page)
+  await synthetics.executeStep('Click on "Continue" button on start page', async function () {
+    log.info('Click on "Continue" button on start page')
+    await clickContinueOnPage(page)
+  })
+  await synthetics.executeStep('Enter amount', async function () {
+    log.info('Enter the amount')
+    await enterAmount(page, '50.50')
+  })
+  await synthetics.executeStep('Click on "Continue" button on amount page', async function () {
+    log.info('Click on "Continue" button on amount page')
+    await clickContinueOnPage(page)
+  })
+  await synthetics.executeStep('Click on "Proceed to payment" button', async function () {
+    log.info('Click on "Proceed to payment" button')
+    await clickContinueOnPage(page)
+  })
 
   const title = await page.title()
   log.info(`We are on "${title}" page`)

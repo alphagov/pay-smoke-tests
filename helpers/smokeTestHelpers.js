@@ -206,7 +206,7 @@ function headers (apiToken) {
 
 function getSecret (secretName) {
   const region = 'eu-west-1'
-  const client = new AWS.SecretsManager({ region: region })
+  const client = new AWS.SecretsManager({ region })
   return new Promise((resolve, reject) => {
     client.getSecretValue({ SecretId: secretName }, function (error, data) {
       if (error) {

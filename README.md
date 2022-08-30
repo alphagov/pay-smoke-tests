@@ -79,9 +79,6 @@ npm run build
 ```
 The zip files will be located in the `dist/zip` directory.
 
-## EPDQ
-The EPDQ smoke tests were not working prior to the migration from [pay-endtoend](https://github.com/alphagov/pay-endtoend) and were not being run by Deploy Jenkins. There is [JIRA ticket](https://payments-platform.atlassian.net/browse/PP-8356) to investigate and fix them but for now these tests are not deployed as AWS Canaries and are [commented out from running locally](https://github.com/alphagov/pay-smoke-tests/blob/88fdca5b6d37dc983f72ef286127429fb24bc5ab/run-local/index.js#L21).
-
 ## Releases
 
 When a PR is merged, a Github Action will build a package and create a release.

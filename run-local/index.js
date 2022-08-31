@@ -17,11 +17,7 @@ const ENVIRONMENTS = ['test', 'staging', 'production']
 process.env.ENVIRONMENT = argv.env
 process.env.WEBHOOKS_ENABLED = argv.webhooks
 
-// epdq tests are not currently working so have been commented out for now.
 const TESTS = {
-  // 'make-card-payment-epdq-with-3ds': proxyquire('../make-card-payment-epdq-with-3ds', stubs),
-  // 'make-card-payment-epdq-with-3ds2': proxyquire('../make-card-payment-epdq-with-3ds2', stubs),
-  // 'make-card-payment-epdq-without-3ds': proxyquire('../make-card-payment-epdq-without-3ds', stubs),
   'make-card-payment-sandbox-without-3ds': proxyquire('../make-card-payment-sandbox-without-3ds', stubs),
   'make-card-payment-stripe-with-3ds2': proxyquire('../make-card-payment-stripe-with-3ds2', stubs),
   'make-card-payment-stripe-without-3ds': proxyquire('../make-card-payment-stripe-without-3ds', stubs),

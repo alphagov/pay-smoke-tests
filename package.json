@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.1059.0",
+    "luxon": "^3.0.3",
     "puppeteer": "^8.0.0"
   },
   "devDependencies": {

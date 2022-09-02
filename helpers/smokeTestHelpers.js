@@ -2,6 +2,7 @@ const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
 const https = require('https')
 const AWS = require('aws-sdk')
+const { DateTime } = require('luxon')
 
 const today = new Date()
 const thisMonthNextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
@@ -240,10 +241,11 @@ function getSecret (secretName) {
 }
 
 const getWebhookObjectFromS3 = (account, resourceId) => {
+  const now = DateTime.now().setZone('Europe/London').setLocale('en-GB')
   const s3 = new AWS.S3({
     region: 'eu-west-1'
   })
-  const dateString = [today.getFullYear(), (today.getUTCMonth() + 1), today.getDate()].join('/')
+  const dateString = [now.c.year, now.c.month, now.c.day].join('/')
   const path = ['webhooks', account, dateString, resourceId].join('/')
 
   log.info('Looking for key:', path)

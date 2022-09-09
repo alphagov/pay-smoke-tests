@@ -49,10 +49,6 @@ in the resource tags, however here's a quick reference guide:
 
 ## Structure
 
-### Note for M1 users
-
-Puppeteer requires a Chromium binary that is not available for arm64, this should be installed through `brew` before running `npm i`. Source the `m1.env` file before attempting to install the package dependencies.
-
 ### Stubs
 AWS uses two libraries `Synthetics` and `SyntheticsLogger`, which appear to only be available inside of the lambda runtime, because of this when running tests locally we need to stub out both of these libraries using Puppeteer. The stubs for these exist in the `stubs` directory in the root of the repository.
 

@@ -12,8 +12,7 @@ module.exports = function init (headless = false) {
         defaultViewport: {
           width: 1024,
           height: 768
-        },
-        executablePath: '/opt/homebrew/bin/chromium' // needed for M1, install Chromium manually with brew over npm
+        }
       })
       const pages = await browser.pages()
       if (pages.length <= 1) {

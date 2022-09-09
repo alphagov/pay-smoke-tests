@@ -15,7 +15,7 @@ const stubs = {
 }
 const ENVIRONMENTS = ['test', 'staging', 'production']
 process.env.ENVIRONMENT = argv.env
-process.env.WEBHOOKS_ENABLED = argv.webhooks
+process.env.WEBHOOKS_ENABLED = argv.webhooks === undefined ? false : argv.webhooks
 
 const TESTS = {
   'make-card-payment-sandbox-without-3ds': proxyquire('../make-card-payment-sandbox-without-3ds', stubs),
@@ -30,12 +30,12 @@ const TESTS = {
   'notifications-sandbox': proxyquire('../notifications-sandbox', stubs)
 }
 
-if (argv.h || !argv.env || !argv.test || !argv.webhooks) {
+if (argv.h || !argv.env || !argv.test) {
   console.log(`Options: 
   --env must be one of: ${ENVIRONMENTS}
   --test must be one of:
    ${Object.keys(TESTS)}
-  --webhooks must be either true or false
+  [--webhooks] enable webhooks steps, default to false
   [--headless] run browser in headless mode, default to false
   `)
   process.exit(1)
@@ -43,6 +43,7 @@ if (argv.h || !argv.env || !argv.test || !argv.webhooks) {
 
 async function runTest (testName) {
   console.log(`Running ${testName}`)
+  console.log(`Webhooks steps are ${process.env.WEBHOOKS_ENABLED === 'true' ? 'enabled' : 'disabled, pass --webhooks to enable them'}`)
   try {
     await TESTS[testName].handler()
     process.exit(0)

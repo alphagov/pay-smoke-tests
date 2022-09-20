@@ -15,7 +15,7 @@
     "luxon": "^3.0.3"
   },
   "devDependencies": {
-    "puppeteer": "10.1.0",
+    "puppeteer": "18.0.2",
     "aws-sdk": "2.1055.0",
     "path": "^0.12.7",
     "proxyquire": "^2.1.3",

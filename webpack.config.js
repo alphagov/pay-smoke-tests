@@ -13,9 +13,7 @@ function singleModule (moduleName) {
     name: moduleName,
     context: path.resolve(__dirname, moduleName),
     entry: './index.js',
-    externals: [awsExternals(), nodeExternals({
-      allowlist: ['luxon']
-    }), 'Synthetics', 'SyntheticsLogger'],
+    externals: [awsExternals(), nodeExternals(), 'Synthetics', 'SyntheticsLogger'],
     mode: 'none',
     output: {
       filename: './' + moduleName + '/index.js',

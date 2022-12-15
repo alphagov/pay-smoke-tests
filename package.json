@@ -1,6 +1,6 @@
 {
   "name": "pay-smoke-tests",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "run-local/index.js",
   "scripts": {

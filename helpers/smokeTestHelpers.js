@@ -239,11 +239,11 @@ function getSecret (secretName) {
   })
 }
 
-const getWebhookObjectFromS3 = (account, resourceId) => {
+const getWebhookObjectFromS3 = (environment, resourceId) => {
   const s3 = new AWS.S3({
     region: 'eu-west-1'
   })
-  const path = ['webhooks', account, resourceId].join('/')
+  const path = ['webhooks', environment, resourceId].join('/')
 
   log.info('Looking for key:', path)
 
@@ -255,20 +255,35 @@ const wait = ms => new Promise(resolve => {
   setTimeout(resolve, ms)
 })
 
-const validateWebhookReceived = async (env, paymentId) => {
+const retrieveWebhookObjectFromS3WithBackoffRetries = async (environment, resourceId) => {
+  for (const retryDelay of [1, 2, 2, 5, 10]) {
+    await wait(retryDelay * 1000)
+
+    try {
+      return await getWebhookObjectFromS3(environment, resourceId)
+    } catch (err) {
+      log.info(`Webhook payload not received yet after ${retryDelay} seconds`)
+    }
+  }
+
+  throw new Error('Webhook Not Received after multiple retries')
+}
+
+const validateWebhookReceived = async (account, paymentId) => {
   await synthetics.executeStep('Validate webhook was received', async function () {
     const accounts = {
       test: 'test-12',
       staging: 'staging-2',
       production: 'production-2'
     }
-    await wait(2000)
-    const key = await getWebhookObjectFromS3(accounts[env], paymentId)
+
+    const key = await retrieveWebhookObjectFromS3WithBackoffRetries(accounts[account], paymentId)
+
     try {
       const result = JSON.parse(key.Body.toString())
       log.info('Found: ', result)
     } catch (err) {
-     log.error('Failed finding webhook object', err)
+      log.error('Failed finding webhook object', err)
     }
   })
 }

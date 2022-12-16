@@ -255,18 +255,23 @@ const wait = ms => new Promise(resolve => {
   setTimeout(resolve, ms)
 })
 
-const retrieveWebhookObjectFromS3WithBackoffRetries = async (environment, resourceId) => {
-  for (const retryDelay of [1, 2, 2, 5, 10]) {
-    await wait(retryDelay * 1000)
+const retrieveWebhookObjectFromS3WithRetries = async (environment, resourceId) => {
+  let totalTimeTaken = 0
+
+  // We're trying every 100ms for a max of 3 seconds
+  for (const retryDelay of new Array(30).fill(100)) {
+    await wait(retryDelay)
+
+    totalTimeTaken += retryDelay
 
     try {
       return await getWebhookObjectFromS3(environment, resourceId)
     } catch (err) {
-      log.info(`Webhook payload not received yet after ${retryDelay} seconds`)
+      log.info(`Webhook payload not received yet after ${totalTimeTaken} milliseconds`)
     }
   }
 
-  throw new Error('Webhook Not Received after multiple retries')
+  throw new Error(`Webhook Not Received after multiple retries for a total of ${totalTimeTaken} milliseconds`)
 }
 
 const validateWebhookReceived = async (account, paymentId) => {
@@ -277,7 +282,7 @@ const validateWebhookReceived = async (account, paymentId) => {
       production: 'production-2'
     }
 
-    const key = await retrieveWebhookObjectFromS3WithBackoffRetries(accounts[account], paymentId)
+    const key = await retrieveWebhookObjectFromS3WithRetries(accounts[account], paymentId)
 
     try {
       const result = JSON.parse(key.Body.toString())

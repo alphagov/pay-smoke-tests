@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Retrieve Build Assets
-        uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd
+        uses: actions/cache@c1a5de879eb890d062a85ee0252d6036480b1fe2
         env:
           cache-name: cache-build-dist
         with:

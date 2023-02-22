@@ -22,7 +22,7 @@
     "webpack-aws-externals": "^2.0.1",
     "webpack-cli": "^5.0.1",
     "webpack-node-externals": "^3.0.0",
-    "yargs": "^17.7.0",
+    "yargs": "^17.7.1",
     "zip-webpack-plugin": "^4.0.1"
   }
 }

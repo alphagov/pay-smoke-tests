@@ -48,7 +48,7 @@ jobs:
 
               var nextRelease = "v" + (currentReleaseNumber + 1)
               console.log(`Next Release Version: ${nextRelease}`)
-              console.log(`NEXTVERSION=${nextRelease} >> $GITHUB_OUTPUT`)
+              console.log(`echo NEXTVERSION=${nextRelease} >> $GITHUB_OUTPUT`)
             } catch(err) {
               if (err.name == 'HttpError') {
                 console.warn("Found HttpError")

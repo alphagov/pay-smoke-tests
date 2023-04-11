@@ -48,7 +48,7 @@ jobs:
 
               var nextRelease = "v" + (currentReleaseNumber + 1)
               console.log(`Next Release Version: ${nextRelease}`)
-              console.log(`echo NEXTVERSION=${nextRelease} >> $GITHUB_OUTPUT`)
+              console.log(`echo "NEXTVERSION=${nextRelease}" >> $GITHUB_OUTPUT`)
             } catch(err) {
               if (err.name == 'HttpError') {
                 console.warn("Found HttpError")
@@ -63,10 +63,8 @@ jobs:
             }
       - name: Create .zip Archive
         id: create-zip
-        env:
-          NEXTVERSION: ${{ steps.next-version.outputs.NEXTVERSION }}
         run: |
-          ZIPFILENAME="pay-smoke-tests-${NEXTVERSION}"
+          ZIPFILENAME="pay-smoke-tests-${{ steps.next-version.outputs.NEXTVERSION }}"
           zip -j -r $ZIPFILENAME.zip dist/zip/*
 
           echo "ZIPFILENAME=${ZIPFILENAME}" >> $GITHUB_OUTPUT

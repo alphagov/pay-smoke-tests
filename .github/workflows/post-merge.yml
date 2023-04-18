@@ -27,40 +27,17 @@ jobs:
         with:
           path: dist
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
-      - name: Get Next Version Number
-        id: next-version
-        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            var currentReleaseName = ""
-            try {
-              const getReleaseResp = await github.rest.repos.getLatestRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo
-              })
-              currentReleaseName = getReleaseResp.data.name
-              console.log(`Current Release Name: ${currentReleaseName}`)
-
-              var currentReleaseNumberStr = currentReleaseName.replace(/\D/g, '')
-              var currentReleaseNumberParseInt = parseInt(currentReleaseNumberStr)
-              var currentReleaseNumber = isNaN(currentReleaseNumberParseInt) ? 0 : currentReleaseNumberParseInt
-
-              var nextRelease = "v" + (currentReleaseNumber + 1)
-              console.log(`Next Release Version: ${nextRelease}`)
-              console.log(`echo "NEXTVERSION=${nextRelease}" >> $GITHUB_OUTPUT`)
-            } catch(err) {
-              if (err.name == 'HttpError') {
-                console.warn("Found HttpError")
-                if (err.status == 404)  {
-                  console.error("Error 404: No previous GitHub Releases found.")
-                  throw err
-                }
-              } else {
-                console.error(`Failed to get the latest release: ${err.message}`)
-                throw err
-              }
-            }
+      - name: Parse Version Number
+        id: next-version-number
+        run: |
+          cd ${GITHUB_WORKSPACE}
+          LATEST_RELEASE_NUMBER=$(git describe --abbrev=0 --tags --match "v*" | cut -d "v" -f 2 || true)
+          number_regex='^[0-9]+$'
+          if ! [[ ${LATEST_RELEASE_NUMBER} =~ $number_regex ]]; then
+           LATEST_RELEASE_NUMBER=0
+          fi
+          NEW_RELEASE_NUMBER=$((LATEST_RELEASE_NUMBER + 1))
+          echo "NEXTVERSION=v${NEW_RELEASE_NUMBER}" >> $GITHUB_OUTPUT
       - name: Create .zip Archive
         id: create-zip
         run: |

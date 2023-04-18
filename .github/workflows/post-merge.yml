@@ -28,7 +28,7 @@ jobs:
           path: dist
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
       - name: Parse Version Number
-        id: next-version-number
+        id: next-version
         run: |
           cd ${GITHUB_WORKSPACE}
           LATEST_RELEASE_NUMBER=$(git describe --abbrev=0 --tags --match "v*" | cut -d "v" -f 2 || true)

@@ -258,8 +258,8 @@ const wait = ms => new Promise(resolve => {
 const retrieveWebhookObjectFromS3WithRetries = async (environment, resourceId) => {
   let totalTimeTaken = 0
 
-  // We're trying every 100ms for a max of 3 seconds
-  for (const retryDelay of new Array(30).fill(100)) {
+  // We're trying every 100ms for a max of 6 seconds
+  for (const retryDelay of new Array(60).fill(100)) {
     await wait(retryDelay)
 
     totalTimeTaken += retryDelay

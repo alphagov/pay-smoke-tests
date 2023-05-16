@@ -1,7 +1,7 @@
 const { ENVIRONMENT } = process.env
 
 const log = require('SyntheticsLogger')
-const smokeTestHelpers = require('../helpers/smokeTestHelpers')
+const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 const https = require('https')
 
 async function cancelPayment (apiToken, publicApiUrl, paymentId) {

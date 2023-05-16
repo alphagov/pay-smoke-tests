@@ -2,7 +2,7 @@ const { ENVIRONMENT, WEBHOOKS_ENABLED } = process.env
 
 const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
-const smokeTestHelpers = require('../helpers/smokeTestHelpers')
+const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 
 const worldpay3ds2Card = {
   cardholderName: '3DS_V2_CHALLENGE_IDENTIFIED',

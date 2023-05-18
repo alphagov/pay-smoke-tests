@@ -23,6 +23,7 @@ in the resource tags, however here's a quick reference guide:
 | make-card-payment-worldpay-with-3ds2           | test        | card_wpay_3ds2_test   |
 | make-card-payment-worldpay-with-3ds2-exemption | test        | card_wpay_3ds2ex_test |
 | make-card-payment-worldpay-without-3ds         | test        | card_wpay_test        |
+| make-recurring-card-payment-stripe             | test        | rec_card_stripe_test  |
 | notifications-sandbox                          | test        | notifications_test    |
 | cancel-card-payment-sandbox-without-3ds        | test        | cancel_sandbox_test   |
 | use-payment-link-for-sandbox                   | test        | pymntlnk_sandbox_test |
@@ -33,6 +34,7 @@ in the resource tags, however here's a quick reference guide:
 | make-card-payment-worldpay-with-3ds2           | staging     | card_wpay_3ds2_stag   |
 | make-card-payment-worldpay-with-3ds2-exemption | staging     | card_wpay_3ds2ex_stag |
 | make-card-payment-worldpay-without-3ds         | staging     | card_wpay_stag        |
+| make-recurring-card-payment-stripe             | staging     | rec_card_stripe_stag  |
 | notifications-sandbox                          | staging     | notifications_stag    |
 | cancel-card-payment-sandbox-without-3ds        | staging     | cancel_sandbox_stag   |
 | use-payment-link-for-sandbox                   | staging     | pymntlnk_sandbox_stag |
@@ -43,6 +45,7 @@ in the resource tags, however here's a quick reference guide:
 | make-card-payment-worldpay-with-3ds2           | production  | card_wpay_3ds2_prod   |
 | make-card-payment-worldpay-with-3ds2-exemption | production  | card_wpay_3ds2ex_prod |
 | make-card-payment-worldpay-without-3ds         | production  | card_wpay_prod        |
+| make-recurring-card-payment-stripe             | production  | rec_card_stripe_prod  |
 | notifications-sandbox                          | production  | notifications_prod    |
 | cancel-card-payment-sandbox-without-3ds        | production  | cancel_sandbox_prod   |
 | use-payment-link-for-sandbox                   | production  | pymntlnk_sandbox_prod |

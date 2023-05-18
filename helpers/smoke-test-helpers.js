@@ -32,12 +32,29 @@ async function createPayment (apiToken, publicApiUrl, createPaymentRequest) {
   })
 }
 
-function createPaymentRequest (provider, typeOf3ds) {
-  return {
+function createPaymentRequest (provider, typeOf3ds, agreementId) {
+  const paymentMethod = agreementId? 'recurring_card_payment': 'card_payment'
+  let payload = {
     amount: 100,
-    reference: generatePaymentReference(provider, typeOf3ds, 'card_payment'),
+    reference: generatePaymentReference(provider, typeOf3ds, paymentMethod),
     description: 'should create payment, enter card details and confirm',
     return_url: 'https://products.pymnt.uk/successful'
+  }
+
+  if (agreementId) {
+    payload.set_up_agreement = agreementId
+  }
+
+  return payload
+}
+
+function getCreateRecurringPaymentPayload (provider, agreementId) {
+  return {
+    amount: 100,
+    reference: generatePaymentReference(provider, '', 'recurring_card_payment'),
+    description: 'should create a recurring payment',
+    agreement_id: agreementId,
+    authorisation_mode: 'agreement'
   }
 }
 
@@ -302,6 +319,7 @@ module.exports = {
   enterCardDetailsAndConfirm,
   enterCardDetailsContinue3dsAndConfirm,
   generatePaymentReference,
+  getCreateRecurringPaymentPayload,
   getPayment,
   getSecret,
   headers,

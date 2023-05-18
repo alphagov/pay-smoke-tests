@@ -1,7 +1,7 @@
 const { ENVIRONMENT, WEBHOOKS_ENABLED } = process.env
 
 const log = require('SyntheticsLogger')
-const smokeTestHelpers = require('../helpers/smokeTestHelpers')
+const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 
 const worldpay3dsFlexExemptionEngineCard = {
   cardholderName: 'EE.REJECTED_ISSUER_REJECTED.SOFT_DECLINED',

@@ -2,7 +2,7 @@ const { ENVIRONMENT } = process.env
 
 const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
-const smokeTestHelpers = require('../helpers/smokeTestHelpers')
+const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 
 async function enterAmount (page, amount) {
   await page.waitForSelector('#payment-amount')

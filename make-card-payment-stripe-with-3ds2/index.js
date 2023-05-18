@@ -2,7 +2,7 @@ const { ENVIRONMENT, WEBHOOKS_ENABLED } = process.env
 
 const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
-const smokeTestHelpers = require('../helpers/smokeTestHelpers')
+const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 
 const stripe3dsCard = {
   cardholderName: 'Test User',

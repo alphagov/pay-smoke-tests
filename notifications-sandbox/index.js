@@ -2,7 +2,7 @@ const { ENVIRONMENT } = process.env
 const https = require('https')
 
 const log = require('SyntheticsLogger')
-const smokeTestHelpers = require('../helpers/smokeTestHelpers')
+const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 
 exports.handler = async () => {
   const secret = await smokeTestHelpers.getSecret(`${ENVIRONMENT}/smoke_test`)

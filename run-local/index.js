@@ -4,14 +4,14 @@ const syntheticsLoggerStub = require('../stubs/syntheticsLoggerStub')
 const syntheticsStub = require('../stubs/syntheticsStub')(argv.headless)
 
 const smokeTestHelpersWithStubs = proxyquire(
-  '../helpers/smokeTestHelpers.js',
+  '../helpers/smoke-test-helpers.js',
   { Synthetics: syntheticsStub, SyntheticsLogger: syntheticsLoggerStub }
 )
 
 const stubs = {
   SyntheticsLogger: syntheticsLoggerStub,
   Synthetics: syntheticsStub,
-  '../helpers/smokeTestHelpers': smokeTestHelpersWithStubs
+  '../helpers/smoke-test-helpers': smokeTestHelpersWithStubs
 }
 const ENVIRONMENTS = ['test', 'staging', 'production']
 process.env.ENVIRONMENT = argv.env

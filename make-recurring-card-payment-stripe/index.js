@@ -1,5 +1,6 @@
 const { ENVIRONMENT, WEBHOOKS_ENABLED } = process.env
 
+const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
 const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 const agreementTestHelpers = require('../helpers/agreement-test-helpers')
@@ -81,15 +82,25 @@ exports.handler = async () => {
   secret = await smokeTestHelpers.getSecret(`${ENVIRONMENT}/smoke_test`)
   apiToken = secret.CARD_STRIPE_API_TOKEN
   publicApiUrl = secret.PUBLIC_API_URL
+  let createAgreementResponse, payment
 
-  const createAgreementResponse = await createAgreement(provider)
-  const payment = await setupPaymentForAgreement(createAgreementResponse.agreement_id)
+  await synthetics.executeStep('Create agreement', async function () {
+    createAgreementResponse = await createAgreement(provider)
+  })
+
+  await synthetics.executeStep('Setup payment for the agreement', async function () {
+    payment = await setupPaymentForAgreement(createAgreementResponse.agreement_id)
+  })
 
   if (WEBHOOKS_ENABLED === 'true') {
     await smokeTestHelpers.validateWebhookReceived(ENVIRONMENT, payment.payment_id)
   }
 
-  await assertAgreementStatus(createAgreementResponse.agreement_id)
+  await synthetics.executeStep('Validate agreement status', async function () {
+    await assertAgreementStatus(createAgreementResponse.agreement_id)
+  })
 
-  await takeARecurringPaymentForAgreement(createAgreementResponse.agreement_id)
+  await synthetics.executeStep('Take a recurring payment for the agreement', async function () {
+    await takeARecurringPaymentForAgreement(createAgreementResponse.agreement_id)
+  })
 }

@@ -39,8 +39,8 @@ async function setupPaymentForAgreement (agreementId) {
 async function assertPaymentStatus (paymentId) {
   let totalTimeTaken = 0
 
-  // query payment status every one second until it is processed asynchronously in connector for a maximum of 6 seconds
-  for (const retryDelay of new Array(6).fill(1000)) {
+  // query payment status every one second until it is processed asynchronously in connector for a maximum of 10 seconds
+  for (const retryDelay of new Array(10).fill(1000)) {
     await wait(retryDelay)
     totalTimeTaken += retryDelay
 

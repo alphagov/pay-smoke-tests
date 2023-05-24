@@ -38,7 +38,7 @@ function createPaymentRequest (provider, typeOf3ds, agreementId) {
     amount: 100,
     reference: generatePaymentReference(provider, typeOf3ds, paymentMethod),
     description: 'should create payment, enter card details and confirm',
-    return_url: 'https://products.pymnt.uk/successful'
+    return_url: 'https://pymnt.uk'
   }
 
   if (agreementId) {

@@ -47,6 +47,7 @@ module.exports = [
   singleModule('make-card-payment-worldpay-with-3ds2'),
   singleModule('make-card-payment-worldpay-with-3ds2-exemption-engine'),
   singleModule('make-card-payment-worldpay-without-3ds'),
+  singleModule('make-recurring-card-payment-worldpay'),
   singleModule('make-recurring-card-payment-stripe'),
   singleModule('notifications-sandbox'),
   singleModule('use-payment-link-for-sandbox')

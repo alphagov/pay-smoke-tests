@@ -85,7 +85,7 @@ The zip files will be located in the `dist/zip` directory.
 
 When a PR is merged, a Github Action will build a package and create a release.
 
-The smoke test Canaries can then be updated by a developer using the [Concourse deploy-smoke-tests pipeline](https://cd.gds-reliability.engineering/teams/pay-deploy/pipelines/deploy-smoke-tests).
+The smoke test Canaries can then be updated by a developer using the [Concourse deploy-smoke-tests pipeline](https://pay-cd.deploy.payments.service.gov.uk/teams/pay-deploy/pipelines/deploy-smoke-tests).
 
 
 ## Licence

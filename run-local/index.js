@@ -41,7 +41,6 @@ const TESTS = {
   'make-card-payment-stripe-with-3ds2': proxyquire('../make-card-payment-stripe-with-3ds2', stubs),
   'make-card-payment-stripe-without-3ds': proxyquire('../make-card-payment-stripe-without-3ds', stubs),
   'make-recurring-card-payment-stripe': proxyquire('../make-recurring-card-payment-stripe', recurringCardPaymentStubs),
-  'make-card-payment-worldpay-with-3ds': proxyquire('../make-card-payment-worldpay-with-3ds', stubs),
   'make-card-payment-worldpay-with-3ds2': proxyquire('../make-card-payment-worldpay-with-3ds2', stubs),
   'make-card-payment-worldpay-with-3ds2-exemp': proxyquire('../make-card-payment-worldpay-with-3ds2-exemption-engine', stubs),
   'make-recurring-card-payment-worldpay': proxyquire('../make-recurring-card-payment-worldpay', recurringCardPaymentStubs),

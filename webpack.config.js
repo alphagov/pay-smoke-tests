@@ -43,7 +43,6 @@ module.exports = [
   singleModule('make-recurring-card-payment-sandbox'),
   singleModule('make-card-payment-stripe-with-3ds2'),
   singleModule('make-card-payment-stripe-without-3ds'),
-  singleModule('make-card-payment-worldpay-with-3ds'),
   singleModule('make-card-payment-worldpay-with-3ds2'),
   singleModule('make-card-payment-worldpay-with-3ds2-exemption-engine'),
   singleModule('make-card-payment-worldpay-without-3ds'),

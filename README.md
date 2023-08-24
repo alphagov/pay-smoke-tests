@@ -20,7 +20,6 @@ in the resource tags, however here's a quick reference guide:
 | make-recurring-card-payment-sandbox            | test        | rec_card_sandbox_test |
 | make-card-payment-stripe-with-3ds2             | test        | card_stripe_3ds_test  |
 | make-card-payment-stripe-without-3ds           | test        | card_stripe_test      |
-| make-card-payment-worldpay-with-3ds            | test        | card_wpay_3ds_test    |
 | make-card-payment-worldpay-with-3ds2           | test        | card_wpay_3ds2_test   |
 | make-card-payment-worldpay-with-3ds2-exemption | test        | card_wpay_3ds2ex_test |
 | make-card-payment-worldpay-without-3ds         | test        | card_wpay_test        |
@@ -33,7 +32,6 @@ in the resource tags, however here's a quick reference guide:
 | make-recurring-card-payment-sandbox            | staging     | rec_card_sandbox_stag |
 | make-card-payment-stripe-with-3ds2             | staging     | card_stripe_3ds_stag  |
 | make-card-payment-stripe-without-3ds           | staging     | card_stripe_stag      |
-| make-card-payment-worldpay-with-3ds            | staging     | card_wpay_3ds_stag    |
 | make-card-payment-worldpay-with-3ds2           | staging     | card_wpay_3ds2_stag   |
 | make-card-payment-worldpay-with-3ds2-exemption | staging     | card_wpay_3ds2ex_stag |
 | make-card-payment-worldpay-without-3ds         | staging     | card_wpay_stag        |
@@ -46,7 +44,6 @@ in the resource tags, however here's a quick reference guide:
 | make-recurring-card-payment-sandbox            | production  | rec_card_sandbox_prod |
 | make-card-payment-stripe-with-3ds2             | production  | card_stripe_3ds_prod  |
 | make-card-payment-stripe-without-3ds           | production  | card_stripe_prod      |
-| make-card-payment-worldpay-with-3ds            | production  | card_wpay_3ds_prod    |
 | make-card-payment-worldpay-with-3ds2           | production  | card_wpay_3ds2_prod   |
 | make-card-payment-worldpay-with-3ds2-exemption | production  | card_wpay_3ds2ex_prod |
 | make-card-payment-worldpay-without-3ds         | production  | card_wpay_prod        |
@@ -88,7 +85,7 @@ The zip files will be located in the `dist/zip` directory.
 
 When a PR is merged, a Github Action will build a package and create a release.
 
-The smoke test Canaries can then be updated by a developer using the [Concourse deploy-smoke-tests pipeline](https://cd.gds-reliability.engineering/teams/pay-deploy/pipelines/deploy-smoke-tests).
+The smoke test Canaries can then be updated by a developer using the [Concourse deploy-smoke-tests pipeline](https://pay-cd.deploy.payments.service.gov.uk/teams/pay-deploy/pipelines/deploy-smoke-tests).
 
 
 ## Licence

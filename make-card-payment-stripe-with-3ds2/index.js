@@ -6,7 +6,7 @@ const smokeTestHelpers = require('../helpers/smoke-test-helpers')
 
 const stripe3dsCard = {
   cardholderName: 'Test User',
-  cardNumber: '4000000000003063',
+  cardNumber: '4000002500003155',
   expiryMonth: smokeTestHelpers.expiryMonth,
   expiryYear: smokeTestHelpers.expiryYear,
   securityCode: '737'

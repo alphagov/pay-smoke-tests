@@ -32,15 +32,10 @@ const enterCardDetailsContinueStripe3dsAndConfirm = async function (nextUrl, car
 
   await synthetics.executeStep('Click submit button on 3DS page', async function () {
     await page.waitForSelector('iframe.iframe-3ds')
-
-    const firstElementHandle = await page.$('iframe.iframe-3ds')
-    const firstIframe = await firstElementHandle.contentFrame()
-    await firstIframe.waitForSelector('iframe.FullscreenFrame')
-
-    const secondElementHandle = await firstIframe.$('iframe.FullscreenFrame')
-    const secondIframe = await secondElementHandle.contentFrame()
-    await secondIframe.waitForSelector('button#test-source-authorize-3ds')
-    await secondIframe.click('button#test-source-authorize-3ds')
+    await page.$('iframe.iframe-3ds')
+    await page.waitForTimeout(5000)
+    const frame = page.frames().find(frame => frame.name() === 'stripe-challenge-frame');
+    await frame.click('#test-source-authorize-3ds')
   })
 
   await navigationPromise

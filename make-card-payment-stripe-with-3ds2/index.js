@@ -34,7 +34,7 @@ const enterCardDetailsContinueStripe3dsAndConfirm = async function (nextUrl, car
     await page.waitForSelector('iframe.iframe-3ds')
     await page.$('iframe.iframe-3ds')
     await page.waitForTimeout(5000)
-    const frame = page.frames().find(frame => frame.name() === 'stripe-challenge-frame');
+    const frame = page.frames().find(frame => frame.name() === 'stripe-challenge-frame')
     await frame.click('#test-source-authorize-3ds')
   })
 

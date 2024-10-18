@@ -3,6 +3,7 @@ const { ENVIRONMENT, WEBHOOKS_ENABLED } = process.env
 const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
 const smokeTestHelpers = require('../helpers/smoke-test-helpers')
+const { setTimeout } = require('node:timers/promises')
 
 const stripe3dsCard = {
   cardholderName: 'Test User',
@@ -35,6 +36,7 @@ const enterCardDetailsContinueStripe3dsAndConfirm = async function (nextUrl, car
     await page.$('iframe.iframe-3ds')
     // removed in puppeteer v22, let's see if this works without it
     // await page.waitForTimeout(5000)
+    await setTimeout(5000)
     const frame = page.frames().find(frame => frame.name() === 'stripe-challenge-frame')
     await frame.click('#test-source-authorize-3ds')
   })

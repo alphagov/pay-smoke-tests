@@ -4,8 +4,8 @@ const agreementTestHelpers = require('./agreement-test-helpers')
 
 async function setupPaymentForAgreement (publicApiUrl, apiToken, provider, agreementId, providerCard, emailAddress) {
   log.info(`Setting up a payment for [${provider}] and agreement [${agreementId}]`)
-  let createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, 'non_3ds', agreementId)
-  let createPaymentResponse = await smokeTestHelpers.createPayment(apiToken, publicApiUrl, createPaymentRequest)
+  const createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, 'non_3ds', agreementId)
+  const createPaymentResponse = await smokeTestHelpers.createPayment(apiToken, publicApiUrl, createPaymentRequest)
   log.info(`Created payment [${createPaymentResponse.payment_id}] for agreement [${agreementId}]`)
 
   await smokeTestHelpers.enterCardDetailsAndConfirm(createPaymentResponse._links.next_url.href, providerCard, emailAddress)
@@ -40,7 +40,6 @@ async function assertPaymentStatus (publicApiUrl, apiToken, paymentId) {
   }
 
   throw new Error(`Payment [${paymentId}] status does not equal to success after multiple retries for a total of ${totalTimeTaken} milliseconds`)
-
 }
 
 async function assertAgreementStatus (publicApiUrl, apiToken, agreementId) {

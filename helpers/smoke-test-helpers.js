@@ -1,7 +1,9 @@
 const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
 const https = require('https')
-const AWS = require('aws-sdk')
+
+const { S3 } = require('@aws-sdk/client-s3')
+const { SecretsManager } = require('@aws-sdk/client-secrets-manager')
 
 const today = new Date()
 const thisMonthNextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
@@ -33,8 +35,8 @@ async function createPayment (apiToken, publicApiUrl, createPaymentRequest) {
 }
 
 function createPaymentRequest (provider, typeOf3ds, agreementId) {
-  const paymentMethod = agreementId? 'recurring_card_payment': 'card_payment'
-  let payload = {
+  const paymentMethod = agreementId ? 'recurring_card_payment' : 'card_payment'
+  const payload = {
     amount: 100,
     reference: generatePaymentReference(provider, typeOf3ds, paymentMethod),
     description: 'should create payment, enter card details and confirm',
@@ -223,24 +225,26 @@ function headers (apiToken) {
 
 function getSecret (secretName) {
   const region = 'eu-west-1'
-  const client = new AWS.SecretsManager({ region })
+  const client = new SecretsManager({
+    region
+  })
   return new Promise((resolve, reject) => {
     client.getSecretValue({ SecretId: secretName }, function (error, data) {
       if (error) {
         log.info(`Error: ${error.message}`)
-        if (error.code === 'DecryptionFailureException') {
+        if (error.name === 'DecryptionFailureException') {
           log.error('Secrets Manager cannot decrypt the protected secret text using the provided KMS key.')
           throw error
-        } else if (error.code === 'InternalServiceErrorException') {
+        } else if (error.name === 'InternalServiceErrorException') {
           log.error('An error occurred on the server side.')
           throw error
-        } else if (error.code === 'InvalidParameterException') {
+        } else if (error.name === 'InvalidParameterException') {
           log.error('The parameter contains an invalid value.')
           throw error
-        } else if (error.code === 'InvalidRequestException') {
+        } else if (error.name === 'InvalidRequestException') {
           log.error('The parameter value is not valid for the current state of the resource.')
           throw error
-        } else if (error.code === 'ResourceNotFoundException') {
+        } else if (error.name === 'ResourceNotFoundException') {
           log.error(`Secrets Manager cannot find the specified secret ${secretName}.`)
           throw error
         }
@@ -257,14 +261,14 @@ function getSecret (secretName) {
 }
 
 const getWebhookObjectFromS3 = (environment, resourceId) => {
-  const s3 = new AWS.S3({
+  const s3 = new S3({
     region: 'eu-west-1'
   })
   const path = ['webhooks', environment, resourceId].join('/')
 
   log.info('Looking for key:', path)
 
-  return s3.getObject({ Bucket: 'govuk-pay-smoke-tests-results-deploy', Key: path }).promise()
+  return s3.getObject({ Bucket: 'govuk-pay-smoke-tests-results-deploy', Key: path })
 }
 
 const wait = ms => new Promise(resolve => {

@@ -2,8 +2,8 @@ const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
 const https = require('https')
 
-const { S3 } = require('@aws-sdk/client-s3');
-const { SecretsManager } = require('@aws-sdk/client-secrets-manager');
+const { S3 } = require('@aws-sdk/client-s3')
+const { SecretsManager } = require('@aws-sdk/client-secrets-manager')
 
 const today = new Date()
 const thisMonthNextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
@@ -35,8 +35,8 @@ async function createPayment (apiToken, publicApiUrl, createPaymentRequest) {
 }
 
 function createPaymentRequest (provider, typeOf3ds, agreementId) {
-  const paymentMethod = agreementId? 'recurring_card_payment': 'card_payment'
-  let payload = {
+  const paymentMethod = agreementId ? 'recurring_card_payment' : 'card_payment'
+  const payload = {
     amount: 100,
     reference: generatePaymentReference(provider, typeOf3ds, paymentMethod),
     description: 'should create payment, enter card details and confirm',
@@ -257,7 +257,7 @@ function getSecret (secretName) {
         }
       }
     })
-  });
+  })
 }
 
 const getWebhookObjectFromS3 = (environment, resourceId) => {
@@ -268,7 +268,7 @@ const getWebhookObjectFromS3 = (environment, resourceId) => {
 
   log.info('Looking for key:', path)
 
-  return s3.getObject({ Bucket: 'govuk-pay-smoke-tests-results-deploy', Key: path });
+  return s3.getObject({ Bucket: 'govuk-pay-smoke-tests-results-deploy', Key: path })
 }
 
 const wait = ms => new Promise(resolve => {

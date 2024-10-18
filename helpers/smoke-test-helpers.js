@@ -306,7 +306,8 @@ const validateWebhookReceived = async (account, paymentId) => {
     const key = await retrieveWebhookObjectFromS3WithRetries(accounts[account], paymentId)
 
     try {
-      const result = JSON.parse(key.Body.toString())
+      const text = await key.Body.transformToString()
+      const result = JSON.parse(text)
       log.info('Found: ', result)
     } catch (err) {
       log.error('Failed finding webhook object', err)

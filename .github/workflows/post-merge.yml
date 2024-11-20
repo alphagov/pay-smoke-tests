@@ -21,11 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b  # v4.1.4
         with:
           fetch-depth: 0
       - name: Retrieve Build Assets
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a  # v4.1.2
         env:
           cache-name: cache-build-dist
         with:
@@ -51,7 +51,7 @@ jobs:
           echo "ZIPFILENAME=${ZIPFILENAME}" >> $GITHUB_OUTPUT
           
       - name: Upload Archive
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
         with:
           name: ${{ steps.create-zip.outputs.ZIPFILENAME }}
           path: ${{ steps.create-zip.outputs.ZIPFILENAME }}.zip
@@ -59,7 +59,7 @@ jobs:
       - name: Create Release
         if: ${{ github.ref == 'refs/heads/main' }}
         id: create-release
-        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

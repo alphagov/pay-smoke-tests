@@ -273,17 +273,12 @@ const getWebhookObjectFromS3 = (environment, resourceId) => {
   return s3.getObject({ Bucket: 'govuk-pay-smoke-tests-results-deploy', Key: path })
 }
 
-const wait = ms => new Promise(resolve => {
-  log.info(`Waiting ${ms}ms`)
-  setTimeout(resolve, ms)
-})
-
 const retrieveWebhookObjectFromS3WithRetries = async (environment, resourceId) => {
   let totalTimeTaken = 0
 
   // We're trying every 100ms for a max of 6 seconds
   for (const retryDelay of new Array(60).fill(100)) {
-    await wait(retryDelay)
+    await setTimeout(retryDelay)
 
     totalTimeTaken += retryDelay
 

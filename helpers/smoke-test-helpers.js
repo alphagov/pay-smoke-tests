@@ -1,9 +1,9 @@
 const synthetics = require('Synthetics')
 const log = require('SyntheticsLogger')
 const https = require('https')
-
 const { S3 } = require('@aws-sdk/client-s3')
 const { SecretsManager } = require('@aws-sdk/client-secrets-manager')
+const { setTimeout } = require('node:timers/promises')
 
 const today = new Date()
 const thisMonthNextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
@@ -140,6 +140,8 @@ async function enterCardDetailsAndConfirm (nextUrl, cardDetails, emailAddress) {
   await page.setViewport({ width: 1920, height: 953 })
 
   await enterCardDetailsAndSubmit(page, cardDetails, emailAddress)
+
+  await setTimeout(2000)
 
   await synthetics.executeStep('Click confirm', async function () {
     await page.waitForSelector('.govuk-grid-row > #main-content #confirm')

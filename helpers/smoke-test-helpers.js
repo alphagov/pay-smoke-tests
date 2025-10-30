@@ -34,7 +34,7 @@ async function createPayment (apiToken, publicApiUrl, createPaymentRequest) {
   })
 }
 
-function createPaymentRequest (provider, typeOf3ds, agreementId) {
+function createPaymentRequest (provider, typeOf3ds, agreementId, agreementPaymentType) {
   const paymentMethod = agreementId ? 'recurring_card_payment' : 'card_payment'
   const payload = {
     amount: 100,
@@ -47,16 +47,21 @@ function createPaymentRequest (provider, typeOf3ds, agreementId) {
     payload.set_up_agreement = agreementId
   }
 
+  if (agreementPaymentType) {
+    payload.agreement_payment_type = agreementPaymentType
+  }
+
   return payload
 }
 
-function getCreateRecurringPaymentPayload (provider, agreementId) {
+function getCreateRecurringPaymentPayload (provider, agreementId, agreementPaymentType) {
   return {
     amount: 100,
     reference: generatePaymentReference(provider, '', 'recurring_card_payment'),
     description: 'should create a recurring payment',
     agreement_id: agreementId,
-    authorisation_mode: 'agreement'
+    authorisation_mode: 'agreement',
+    agreement_payment_type: agreementPaymentType
   }
 }
 

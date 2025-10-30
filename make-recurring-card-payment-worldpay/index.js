@@ -20,7 +20,6 @@ exports.handler = async () => {
   apiToken = secret.CARD_WORLDPAY_RECURRING_API_TOKEN
   publicApiUrl = secret.PUBLIC_API_URL
   const emailAddress = secret.EMAIL_ADDRESS
-  const agreementPaymentType = 'instalment'
 
   let createAgreementResponse, payment
 
@@ -30,7 +29,7 @@ exports.handler = async () => {
 
   await synthetics.executeStep('Setup payment for the agreement', async function () {
     payment = await recCardPaymentTestHelpers.setupPaymentForAgreement(publicApiUrl, apiToken, provider,
-      createAgreementResponse.agreement_id, worldpayCard, emailAddress, agreementPaymentType)
+      createAgreementResponse.agreement_id, worldpayCard, emailAddress, '3ds2')
   })
 
   if (WEBHOOKS_ENABLED === 'true') {
@@ -43,6 +42,6 @@ exports.handler = async () => {
 
   await synthetics.executeStep('Take a recurring payment for the agreement', async function () {
     await recCardPaymentTestHelpers.takeARecurringPaymentForAgreement(publicApiUrl, apiToken,
-      provider, createAgreementResponse.agreement_id, agreementPaymentType)
+      provider, createAgreementResponse.agreement_id)
   })
 }

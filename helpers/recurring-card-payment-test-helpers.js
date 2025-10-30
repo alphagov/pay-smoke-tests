@@ -2,27 +2,27 @@ const log = require('SyntheticsLogger')
 const smokeTestHelpers = require('./smoke-test-helpers')
 const agreementTestHelpers = require('./agreement-test-helpers')
 
-async function setupPaymentForAgreement (publicApiUrl, apiToken, provider, agreementId, providerCard, emailAddress, agreementPaymentType) {
+async function setupPaymentForAgreement (publicApiUrl, apiToken, provider, agreementId, providerCard, emailAddress) {
   log.info(`Setting up a payment for [${provider}] and agreement [${agreementId}]`)
-  const createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, 'non_3ds', agreementId, agreementPaymentType)
+  const createPaymentRequest = smokeTestHelpers.createPaymentRequest(provider, 'non_3ds', agreementId)
   const createPaymentResponse = await smokeTestHelpers.createPayment(apiToken, publicApiUrl, createPaymentRequest)
   log.info(`Created payment [${createPaymentResponse.payment_id}] for agreement [${agreementId}]`)
 
   await smokeTestHelpers.enterCardDetailsAndConfirm(createPaymentResponse._links.next_url.href, providerCard, emailAddress)
   log.info(`Finished setting up payment [${createPaymentResponse.payment_id}] for agreement [${agreementId}]`)
 
-  return assertPaymentStatusAndAgreementPaymentType(publicApiUrl, apiToken, createPaymentResponse.payment_id, agreementPaymentType)
+  return assertPaymentStatus(publicApiUrl, apiToken, createPaymentResponse.payment_id)
 }
 
-async function takeARecurringPaymentForAgreement (publicApiUrl, apiToken, provider, agreementId, agreementPaymentType) {
+async function takeARecurringPaymentForAgreement (publicApiUrl, apiToken, provider, agreementId) {
   log.info(`Taking a recurring payment for [${provider}] and agreement [${agreementId}]`)
-  const createPaymentRequest = smokeTestHelpers.getCreateRecurringPaymentPayload(provider, agreementId, agreementPaymentType)
+  const createPaymentRequest = smokeTestHelpers.getCreateRecurringPaymentPayload(provider, agreementId)
   const createPaymentResponse = await smokeTestHelpers.createPayment(apiToken, publicApiUrl, createPaymentRequest)
 
-  await assertPaymentStatusAndAgreementPaymentType(publicApiUrl, apiToken, createPaymentResponse.payment_id, agreementPaymentType)
+  await assertPaymentStatus(publicApiUrl, apiToken, createPaymentResponse.payment_id)
 }
 
-async function assertPaymentStatusAndAgreementPaymentType (publicApiUrl, apiToken, paymentId, agreementPaymentType) {
+async function assertPaymentStatus (publicApiUrl, apiToken, paymentId) {
   let totalTimeTaken = 0
 
   // query payment status every one second until it is processed asynchronously in connector for a maximum of 6 seconds
@@ -32,11 +32,9 @@ async function assertPaymentStatusAndAgreementPaymentType (publicApiUrl, apiToke
 
     const payment = await smokeTestHelpers.getPayment(apiToken, publicApiUrl, paymentId)
     const paymentStatus = payment.state.status
-    const responseAgreementPaymentType = payment.agreement_payment_type
     log.info(`Payment [${paymentId}] status is ${paymentStatus}`)
-    log.info(`Requested agreement payment type is [${agreementPaymentType}] and response one is [${responseAgreementPaymentType}]`)
 
-    if (responseAgreementPaymentType === agreementPaymentType && paymentStatus === 'success') {
+    if (paymentStatus === 'success') {
       return payment
     }
   }

@@ -32,7 +32,7 @@ exports.handler = async () => {
   const page = await synthetics.getPage()
 
   await navigateToPayStart(page, paymentLinkUrl)
-  await synthetics.executeStep('Click on "Continue" button on start page', async function () {
+  await synthetics.executeStep('Click on Continue button on start page', async function () {
     log.info('Click on "Continue" button on start page')
     await clickContinueOnPage(page)
   })
@@ -40,11 +40,11 @@ exports.handler = async () => {
     log.info('Enter the amount')
     await enterAmount(page, '50.50')
   })
-  await synthetics.executeStep('Click on "Continue" button on amount page', async function () {
+  await synthetics.executeStep('Click on Continue button on amount page', async function () {
     log.info('Click on "Continue" button on amount page')
     await clickContinueOnPage(page)
   })
-  await synthetics.executeStep('Click on "Proceed to payment" button', async function () {
+  await synthetics.executeStep('Click on Proceed to payment button', async function () {
     log.info('Click on "Proceed to payment" button')
     await clickContinueOnPage(page)
   })
